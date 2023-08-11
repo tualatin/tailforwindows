@@ -3,7 +3,7 @@
     <RootNamespace>Org.Vs.TailForWin.Core</RootNamespace>
     <AssemblyName>T4WCore</AssemblyName>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <ShouldCreateLogs>True</ShouldCreateLogs>
     <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
     <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
@@ -19,8 +19,8 @@
     <Product>T4WCore</Product>
     <Description>Professional log reader for Windows® Core</Description>
     <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.195</AssemblyVersion>
-    <FileVersion>1.0.195</FileVersion>
+    <AssemblyVersion>1.0.202</AssemblyVersion>
+    <FileVersion>1.0.202</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>

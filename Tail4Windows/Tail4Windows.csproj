@@ -5,7 +5,7 @@
     <AssemblyName>T4W</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Platforms>AnyCPU;x86;x64</Platforms>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -39,14 +39,24 @@
     <Product>T4W</Product>
     <Description>Professional log reader for Windows®</Description>
     <Copyright>Copyright ©  2013 - 2023 M. Zoennchen</Copyright>
-    <Version>2.3.8402.7</Version>
-    <AssemblyVersion>2.3.8622</AssemblyVersion>
-    <FileVersion>2.3.8622</FileVersion>
+    <AssemblyVersion>2.4.8623</AssemblyVersion>
+    <FileVersion>2.4.8623</FileVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
+    <ShouldCreateLogs>True</ShouldCreateLogs>
+    <AdvancedSettingsExpanded>True</AdvancedSettingsExpanded>
+    <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>True</UpdateAssemblyInfoVersion>
+    <AssemblyVersionSettings>None.None.DeltaDayStamp.Increment</AssemblyVersionSettings>
+    <AssemblyFileVersionSettings>None.None.DeltaDayStamp.Increment</AssemblyFileVersionSettings>
+    <AssemblyInfoVersionSettings>None.None.DeltaDayStamp.Increment</AssemblyInfoVersionSettings>
+    <UpdatePackageVersion>False</UpdatePackageVersion>
+    <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+    <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -367,5 +377,18 @@
     <Compile Remove="obj\x64\Debug\net48\PlugIns\OptionModules\EnvironmentOption\ExtraOptionPage.g.i.cs" />
     <Compile Remove="obj\x64\Debug\net48\UI\UserControls\DragSupportUtils\DragWindow.g.cs" />
     <Compile Remove="obj\x64\Debug\net48\UI\UserControls\DragSupportUtils\DragWindow.g.i.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>

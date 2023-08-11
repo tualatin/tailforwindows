@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>Org.Vs.NUnit.Tests</RootNamespace>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <AssemblyTitle>NUnit.Tests</AssemblyTitle>
     <Product>nunit.tests</Product>
     <Copyright>Copyright © 2017</Copyright>
@@ -30,7 +30,7 @@
     </PackageReference>
     <PackageReference Include="Castle.Core" Version="5.1.1" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="Moq" Version="4.20.1" />
+    <PackageReference Include="Moq" Version="4.20.2" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />

@@ -8,7 +8,7 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
-v.2.3.xxxx.x64
+v.2.4.xxxx.x
 * new Close multiple tabs context menu -> Close left tabs, Close right tabs, Close other tabs
 * new commandline parameter parser can process multiple args, example: T4W c:\temp\abc.log d:\temp\xyz.log c:\temp\xxx.log
 * bug fix build date
