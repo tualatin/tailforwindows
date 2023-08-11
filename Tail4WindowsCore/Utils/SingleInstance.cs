@@ -138,7 +138,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
     }
 
-    private void StartService()
+    private static void StartService()
     {
       try
       {
