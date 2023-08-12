@@ -16,17 +16,17 @@ namespace Org.Vs.TailForWin.Controllers.Commands
     /// <summary>
     /// Command parameter property
     /// </summary>
-    public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(InvokeDelegateCommandAction), null);
+    public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(InvokeDelegateCommandAction), null);
 
     /// <summary>
     /// Command property
     /// </summary>
-    public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(InvokeDelegateCommandAction), null);
+    public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(InvokeDelegateCommandAction), null);
 
     /// <summary>
     /// Invoke parameter property
     /// </summary>
-    public static readonly DependencyProperty InvokeParameterProperty = DependencyProperty.Register("InvokeParameter", typeof(object), typeof(InvokeDelegateCommandAction), null);
+    public static readonly DependencyProperty InvokeParameterProperty = DependencyProperty.Register(nameof(InvokeParameter), typeof(object), typeof(InvokeDelegateCommandAction), null);
 
     private string _commandName;
 

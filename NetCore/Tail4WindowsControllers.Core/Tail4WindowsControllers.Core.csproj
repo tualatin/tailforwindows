@@ -4,16 +4,15 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <RootNamespace>Org.Vs.Tail4Win.Core</RootNamespace>
-    <AssemblyName>T4W.Core</AssemblyName>
     <UseWPF>true</UseWPF>
-    <PlatformTarget>x64</PlatformTarget>
-    <AssemblyVersion>1.0.32.0</AssemblyVersion>
-    <FileVersion>1.0.32.0</FileVersion>
-    <Product>T4WCore</Product>
+    <RootNamespace>Org.Vs.Tail4Win.Controllers</RootNamespace>
+    <Product>T4WControllers</Product>
+    <AssemblyName>T4W.Controllers</AssemblyName>
     <Description>Professional log reader for Windows® Core</Description>
     <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
     <Company>Virtual Studios</Company>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,9 +42,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="TinyIpc" Version="4.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tail4Windows.Core\Tail4Windows.Core.csproj" />
+    <ProjectReference Include="..\Tail4WindowsBusiness.Core\Tail4WindowsBusiness.Core.csproj" />
   </ItemGroup>
 
 </Project>
