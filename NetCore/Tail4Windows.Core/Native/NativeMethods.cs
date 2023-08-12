@@ -6,7 +6,7 @@ using Org.Vs.Tail4Win.Core.Native.Data;
 // ReSharper disable InconsistentNaming
 
 [assembly: InternalsVisibleTo("T4W")]
-[assembly: InternalsVisibleTo("T4WBusiness")]
+[assembly: InternalsVisibleTo("T4W.Business")]
 [assembly: InternalsVisibleTo("T4WUi.Utils")]
 namespace Org.Vs.Tail4Win.Core.Native
 {

@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetCore", "NetCore", "{35D9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4Windows.Core", "NetCore\Tail4Windows.Core\Tail4Windows.Core.csproj", "{97171C5A-EEA0-4F04-9F0A-3B7B2D155DAE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsBusiness.Core", "NetCore\Tail4WindowsBusiness.Core\Tail4WindowsBusiness.Core.csproj", "{5A002F83-17A5-403D-ADC6-246C21F9918D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,12 +168,29 @@ Global
 		{97171C5A-EEA0-4F04-9F0A-3B7B2D155DAE}.Release|x64.Build.0 = Release|Any CPU
 		{97171C5A-EEA0-4F04-9F0A-3B7B2D155DAE}.Release|x86.ActiveCfg = Release|Any CPU
 		{97171C5A-EEA0-4F04-9F0A-3B7B2D155DAE}.Release|x86.Build.0 = Release|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Debug|x64.Build.0 = Debug|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Debug|x86.Build.0 = Debug|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Release|x64.ActiveCfg = Release|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Release|x64.Build.0 = Release|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Release|x86.ActiveCfg = Release|Any CPU
+		{5A002F83-17A5-403D-ADC6-246C21F9918D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{97171C5A-EEA0-4F04-9F0A-3B7B2D155DAE} = {35D990C7-F9DA-4907-9C72-2C6E3E52B2C9}
+		{5A002F83-17A5-403D-ADC6-246C21F9918D} = {35D990C7-F9DA-4907-9C72-2C6E3E52B2C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDAEB0E5-1E95-4A67-BF43-48878D46AC1C}
