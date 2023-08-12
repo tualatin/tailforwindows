@@ -19,8 +19,8 @@
     <Product>T4WControllers</Product>
     <Description>Professional log reader for Windows® Controllers</Description>
     <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.208</AssemblyVersion>
-    <FileVersion>1.0.208</FileVersion>
+    <AssemblyVersion>1.0.224</AssemblyVersion>
+    <FileVersion>1.0.224</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -67,7 +67,6 @@
     <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />

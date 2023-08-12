@@ -20,8 +20,8 @@
     <Product>T4WUI.Plugins</Product>
     <Description>Professional log reader for Windows® UI Plugins</Description>
     <Copyright>Copyright ©  2019 - 2023 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.254</AssemblyVersion>
-    <FileVersion>1.0.254</FileVersion>
+    <AssemblyVersion>1.0.267</AssemblyVersion>
+    <FileVersion>1.0.267</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -88,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj" />
-    <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj" />
     <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj" />
     <ProjectReference Include="..\Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj" />
   </ItemGroup>
