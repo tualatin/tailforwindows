@@ -1,13 +1,13 @@
 ﻿using System.Windows.Input;
-using Org.Vs.Tail4Win.Business.StatisticEngine.Data;
-using Org.Vs.Tail4Win.Business.StatisticEngine.Interfaces;
-using Org.Vs.Tail4Win.Controllers.Commands.Interfaces;
-using Org.Vs.Tail4Win.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
-using Org.Vs.Tail4Win.Controllers.PlugIns.StatisticAnalysis.Data.Mappings;
-using Org.Vs.Tail4Win.Controllers.UI.Interfaces;
-using Org.Vs.Tail4Win.Core.Collections;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data;
+using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
+using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Mappings;
+using Org.Vs.TailForWin.Controllers.UI.Interfaces;
+using Org.Vs.TailForWin.Core.Collections;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.StatisticAnalysis.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
 {
   /// <summary>
   /// StatisticAnalysis view model interface

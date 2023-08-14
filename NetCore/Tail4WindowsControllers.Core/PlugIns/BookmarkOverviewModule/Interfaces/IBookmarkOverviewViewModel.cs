@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Windows.Data;
 using System.Windows.Input;
-using Org.Vs.Tail4Win.Business.Services.Data;
-using Org.Vs.Tail4Win.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.BookmarkOverviewModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces
 {
   /// <summary>
   /// Bookmark overview model interface

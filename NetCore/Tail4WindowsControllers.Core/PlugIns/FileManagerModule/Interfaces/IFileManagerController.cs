@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
 {
   /// <summary>
   /// FileManager (for JSON use only) controller interface

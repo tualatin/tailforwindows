@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using Org.Vs.Tail4Win.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Interfaces;
 
-namespace Org.Vs.Tail4Win.Core.Data.Base
+namespace Org.Vs.TailForWin.Core.Data.Base
 {
   /// <summary>
   /// Watches a task and raises property-changed notifications when the task completes.

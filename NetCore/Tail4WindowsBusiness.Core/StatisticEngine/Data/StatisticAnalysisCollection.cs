@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Runtime.Serialization;
-using Org.Vs.Tail4Win.Business.StatisticEngine.Interfaces;
-using Org.Vs.Tail4Win.Core.Collections;
+using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
+using Org.Vs.TailForWin.Core.Collections;
 
-namespace Org.Vs.Tail4Win.Business.StatisticEngine.Data
+namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
 {
   /// <summary>
   /// Statistic analysis collection

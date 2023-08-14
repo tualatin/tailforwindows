@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Core.Interfaces;
+﻿using Org.Vs.TailForWin.Core.Interfaces;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Central event dispatcher used to send application messages to registered handlers

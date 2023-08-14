@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Org.Vs.Tail4Win.Controllers.Commands.Interfaces
+namespace Org.Vs.TailForWin.Controllers.Commands.Interfaces
 {
   /// <inheritdoc />
   /// <summary>

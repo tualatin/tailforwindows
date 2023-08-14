@@ -1,9 +1,9 @@
 ﻿using System.Windows.Input;
-using Org.Vs.Tail4Win.Controllers.Commands.Interfaces;
-using Org.Vs.Tail4Win.Controllers.UI.Interfaces;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.UI.Interfaces;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FindModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces
 {
   /// <summary>
   /// FindDialog view model interface

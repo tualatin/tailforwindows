@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 
-namespace Org.Vs.Tail4Win.Core.Extensions
+namespace Org.Vs.TailForWin.Core.Extensions
 {
   /// <summary>
   /// Enum extension

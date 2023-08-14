@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Business.SmartWatchEngine.Events.Delegates
+﻿namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Events.Delegates
 {
   /// <summary>
   /// Smart watch files changes event handler

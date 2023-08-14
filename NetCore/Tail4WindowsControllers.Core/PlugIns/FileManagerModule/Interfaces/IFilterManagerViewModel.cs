@@ -1,9 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using Org.Vs.Tail4Win.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
 {
   /// <summary>
   /// FilterManager view model interface
@@ -19,7 +20,7 @@ namespace Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Interfaces
     }
 
     /// <summary>
-    /// Add <see cref="Core.Data.FilterData"/> command
+    /// Add <see cref="FilterData"/> command
     /// </summary>
     ICommand AddFilterDataCommand
     {
@@ -35,7 +36,7 @@ namespace Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Interfaces
     }
 
     /// <summary>
-    /// Delete <see cref="Core.Data.FilterData"/> from FileManager
+    /// Delete <see cref="FilterData"/> from FileManager
     /// </summary>
     IAsyncCommand DeleteFilterDataCommand
     {

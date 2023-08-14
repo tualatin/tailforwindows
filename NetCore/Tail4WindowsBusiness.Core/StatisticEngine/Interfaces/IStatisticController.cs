@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Business.StatisticEngine.Data;
+﻿using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 
-namespace Org.Vs.Tail4Win.Business.StatisticEngine.Interfaces
+namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
 {
   /// <summary>
   /// Statistics controller interface

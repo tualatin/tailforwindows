@@ -1,7 +1,7 @@
-﻿using Org.Vs.Tail4Win.Core.Enums;
-using Org.Vs.Tail4Win.Core.Extensions;
+﻿using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Extensions;
 
-namespace Org.Vs.Tail4Win.Core.Data.Mappings
+namespace Org.Vs.TailForWin.Core.Data.Mappings
 {
   /// <summary>
   /// TimeFormatMapping

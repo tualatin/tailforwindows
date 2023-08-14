@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Business.DbEngine.Data
+﻿namespace Org.Vs.TailForWin.Business.DbEngine.Data
 {
   /// <summary>
   /// DataBase setting

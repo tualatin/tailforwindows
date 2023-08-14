@@ -2,7 +2,7 @@
 using log4net.Core;
 using log4net.Layout.Pattern;
 
-namespace Org.Vs.Tail4Win.Core.Logging
+namespace Org.Vs.TailForWin.Core.Logging
 {
   /// <summary>
   /// A converter which uses the first letter of the logging level, capitalized to represent the log-level.

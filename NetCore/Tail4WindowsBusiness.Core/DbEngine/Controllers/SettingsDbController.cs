@@ -1,14 +1,14 @@
 ﻿using System.Globalization;
 using LiteDB;
 using log4net;
-using Org.Vs.Tail4Win.Business.Data;
-using Org.Vs.Tail4Win.Business.DbEngine.Data;
-using Org.Vs.Tail4Win.Business.DbEngine.Interfaces;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data.Settings;
-using Org.Vs.Tail4Win.Core.Logging;
+using Org.Vs.TailForWin.Business.Data;
+using Org.Vs.TailForWin.Business.DbEngine.Data;
+using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Logging;
 
-namespace Org.Vs.Tail4Win.Business.DbEngine.Controllers
+namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
 {
   /// <summary>
   /// Settings DataBase controller

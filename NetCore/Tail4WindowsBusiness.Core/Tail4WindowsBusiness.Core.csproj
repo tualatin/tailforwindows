@@ -4,7 +4,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <RootNamespace>Org.Vs.Tail4Win.Business</RootNamespace>
+    <RootNamespace>Org.Vs.TailForWin.Business</RootNamespace>
     <AssemblyName>T4W.Business</AssemblyName>
     <UseWindowsForms>true</UseWindowsForms>
     <PlatformTarget>x64</PlatformTarget>
@@ -12,8 +12,8 @@
     <Description>Professional log reader for Windows® Core</Description>
     <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
     <Company>Virtual Studios</Company>
-    <AssemblyVersion>1.0.15.0</AssemblyVersion>
-    <FileVersion>1.0.15.0</FileVersion>
+    <AssemblyVersion>1.0.16.0</AssemblyVersion>
+    <FileVersion>1.0.16.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

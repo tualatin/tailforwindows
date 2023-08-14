@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Business.Utils.Interfaces
+﻿namespace Org.Vs.TailForWin.Business.Utils.Interfaces
 {
   /// <summary>
   /// Profile converter interface

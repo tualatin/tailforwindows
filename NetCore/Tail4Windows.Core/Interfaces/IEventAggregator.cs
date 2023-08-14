@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Core.Interfaces
+﻿namespace Org.Vs.TailForWin.Core.Interfaces
 {
   /// <summary>
   /// Event aggregator interface

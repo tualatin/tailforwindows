@@ -1,14 +1,13 @@
-﻿using System.Drawing;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using log4net;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Business.Utils
+namespace Org.Vs.TailForWin.Business.Utils
 {  /// <summary>
    /// BusinessHelper
    /// </summary>

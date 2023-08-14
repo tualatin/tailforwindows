@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using Org.Vs.Tail4Win.Business.Services.Data;
-using Org.Vs.Tail4Win.Business.Services.Interfaces;
-using Org.Vs.Tail4Win.Business.Utils.Interfaces;
-using Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Data;
-using Org.Vs.Tail4Win.Core.Collections.FilterCollections;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Services.Interfaces;
+using Org.Vs.TailForWin.Business.Utils.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
+using Org.Vs.TailForWin.Core.Collections.FilterCollections;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
 {
   /// <summary>
   /// SplitWindowControl interface

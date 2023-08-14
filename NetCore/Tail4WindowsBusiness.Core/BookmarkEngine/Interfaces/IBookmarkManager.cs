@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using Org.Vs.Tail4Win.Business.BookmarkEngine.Events.Delegates;
-using Org.Vs.Tail4Win.Business.Services.Data;
-using Org.Vs.Tail4Win.Core.Collections;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Delegates;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Core.Collections;
 
-namespace Org.Vs.Tail4Win.Business.BookmarkEngine.Interfaces
+namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
 {
   /// <summary>
   /// Bookmark manager interface

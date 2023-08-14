@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using TinyIpc.Messaging;
 
-namespace Org.Vs.Tail4Win.Core.SingleInstanceCore
+namespace Org.Vs.TailForWin.Core.SingleInstanceCore
 {
   /// <summary>
   /// See https://github.com/soheilkd/SingleInstanceCore

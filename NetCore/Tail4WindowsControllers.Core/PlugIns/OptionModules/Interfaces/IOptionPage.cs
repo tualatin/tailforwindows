@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.Interfaces
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces
 {
   /// <summary>
   /// Interface for option pages

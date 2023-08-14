@@ -5,11 +5,11 @@ using System.Security;
 using System.Text;
 using System.Windows;
 using log4net;
-using Org.Vs.Tail4Win.Core.Interfaces;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Core.Controllers
+namespace Org.Vs.TailForWin.Core.Controllers
 {
   /// <summary>
   /// E-Mail controller

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Org.Vs.Tail4Win.Core.Utils.Threading
+namespace Org.Vs.TailForWin.Core.Utils.Threading
 {
   /// <summary>
   /// Service synchronisation context

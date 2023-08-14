@@ -1,20 +1,20 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using log4net;
-using Org.Vs.Tail4Win.Business.Services.Data;
-using Org.Vs.Tail4Win.Business.Services.Events.Args;
-using Org.Vs.Tail4Win.Business.Services.Events.Delegates;
-using Org.Vs.Tail4Win.Business.Services.Interfaces;
-using Org.Vs.Tail4Win.Business.SmartWatchEngine.Interfaces;
-using Org.Vs.Tail4Win.Business.StatisticEngine.Data.Messages;
-using Org.Vs.Tail4Win.Business.Utils;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data;
-using Org.Vs.Tail4Win.Core.Data.Base;
-using Org.Vs.Tail4Win.Core.Logging;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Services.Events.Args;
+using Org.Vs.TailForWin.Business.Services.Events.Delegates;
+using Org.Vs.TailForWin.Business.Services.Interfaces;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages;
+using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Logging;
 using Application = System.Windows.Application;
 
-namespace Org.Vs.Tail4Win.Business.Services
+namespace Org.Vs.TailForWin.Business.Services
 {
   /// <summary>
   /// Windows event reader
@@ -77,7 +77,7 @@ namespace Org.Vs.Tail4Win.Business.Services
     }
 
     /// <summary>
-    /// <see cref="Core.Data.TailData"/>
+    /// <see cref="TailForWin.Core.Data.TailData"/>
     /// </summary>
     public TailData TailData
     {

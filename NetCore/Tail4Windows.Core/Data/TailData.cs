@@ -7,14 +7,14 @@ using System.Windows;
 using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data.Settings;
-using Org.Vs.Tail4Win.Core.Enums;
-using Org.Vs.Tail4Win.Core.JsonConverters;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils.UndoRedoManager;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.JsonConverters;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
-namespace Org.Vs.Tail4Win.Core.Data
+namespace Org.Vs.TailForWin.Core.Data
 {
   /// <summary>
   /// Tail data object

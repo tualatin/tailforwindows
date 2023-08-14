@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data;
-using Org.Vs.Tail4Win.Core.Enums;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Enums;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Utils
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Utils
 {
   /// <summary>
   /// TailData comparer

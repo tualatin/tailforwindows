@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Data
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
 {
   /// <summary>
   /// XML names

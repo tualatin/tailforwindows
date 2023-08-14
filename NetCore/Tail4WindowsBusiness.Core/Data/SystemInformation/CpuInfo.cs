@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Business.Data.SystemInformation
+﻿namespace Org.Vs.TailForWin.Business.Data.SystemInformation
 {
   /// <summary>
   /// CPU Info

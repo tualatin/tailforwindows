@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using log4net;
-using Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
-using Org.Vs.Tail4Win.Core.Data;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
+using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.GlobalHighlightModule
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule
 {
   /// <summary>
   /// Global filter controller

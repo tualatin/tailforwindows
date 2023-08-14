@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using Org.Vs.Tail4Win.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FindModule.Utils
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils
 {
   /// <summary>
   /// <see cref="LogEntry"/> comparer

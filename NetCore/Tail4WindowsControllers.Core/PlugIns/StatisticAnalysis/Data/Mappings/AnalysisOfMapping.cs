@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using Org.Vs.Tail4Win.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
+using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.StatisticAnalysis.Data.Mappings
+namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Mappings
 {
   /// <summary>
   /// Analysis of mapping

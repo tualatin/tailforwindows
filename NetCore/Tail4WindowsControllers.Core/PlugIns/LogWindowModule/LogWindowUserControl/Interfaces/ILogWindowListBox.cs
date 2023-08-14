@@ -1,8 +1,9 @@
 ﻿using System.Windows;
-using Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Data;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.LogWindowUserControl.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserControl.Interfaces
 {
   /// <summary>
   /// LogWindow ListBox interface
@@ -48,7 +49,7 @@ namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.LogWindowUserContr
     }
 
     /// <summary>
-    /// Last visible <see cref="Business.Services.Data.LogEntry"/> index property
+    /// Last visible <see cref="LogEntry"/> index property
     /// </summary>
     int LastVisibleLogEntryIndex
     {

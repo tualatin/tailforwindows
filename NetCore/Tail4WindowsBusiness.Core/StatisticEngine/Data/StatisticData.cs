@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Business.StatisticEngine.Data
+﻿namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
 {
   /// <summary>
   /// StatisticData object

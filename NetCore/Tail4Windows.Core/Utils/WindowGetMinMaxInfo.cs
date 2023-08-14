@@ -1,8 +1,8 @@
 ﻿using System.Runtime.InteropServices;
-using Org.Vs.Tail4Win.Core.Native;
-using Org.Vs.Tail4Win.Core.Native.Data;
+using Org.Vs.TailForWin.Core.Native;
+using Org.Vs.TailForWin.Core.Native.Data;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// WindowGetMinMaxInfo

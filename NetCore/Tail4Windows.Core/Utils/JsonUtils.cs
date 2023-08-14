@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Some JSON utils

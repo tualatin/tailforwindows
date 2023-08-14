@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using Org.Vs.Tail4Win.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Base;
 
-namespace Org.Vs.Tail4Win.Core.Data.Settings
+namespace Org.Vs.TailForWin.Core.Data.Settings
 {
   /// <summary>
   /// App wide settings

@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Core.Utils;
+﻿using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Business.Data
+namespace Org.Vs.TailForWin.Business.Data
 {
   /// <summary>
   /// Business environment

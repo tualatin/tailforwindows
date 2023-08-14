@@ -1,18 +1,18 @@
 ﻿using System.Diagnostics;
 using LiteDB;
 using log4net;
-using Org.Vs.Tail4Win.Business.Data;
-using Org.Vs.Tail4Win.Business.StatisticEngine.Data;
-using Org.Vs.Tail4Win.Business.StatisticEngine.DbScheme;
-using Org.Vs.Tail4Win.Business.StatisticEngine.Interfaces;
-using Org.Vs.Tail4Win.Business.Utils;
-using Org.Vs.Tail4Win.Core.Collections;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data.Base;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Business.Data;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data;
+using Org.Vs.TailForWin.Business.StatisticEngine.DbScheme;
+using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
+using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Collections;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Business.StatisticEngine.Controllers
+namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 {
   /// <summary>
   /// Statistics controller

@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Core.Utils.UndoRedoManager
+﻿namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
 {
   /// <summary>
   /// Command

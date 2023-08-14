@@ -6,21 +6,21 @@ using System.Windows.Media;
 using System.Xml;
 using System.Xml.Linq;
 using log4net;
-using Org.Vs.Tail4Win.Business.SmartWatchEngine.Controllers;
-using Org.Vs.Tail4Win.Business.SmartWatchEngine.Interfaces;
-using Org.Vs.Tail4Win.Business.Utils;
-using Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Data;
-using Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Interfaces;
-using Org.Vs.Tail4Win.Core.Collections;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data;
-using Org.Vs.Tail4Win.Core.Data.Settings;
-using Org.Vs.Tail4Win.Core.Data.XmlNames;
-using Org.Vs.Tail4Win.Core.Extensions;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
+using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.Core.Collections;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Data.XmlNames;
+using Org.Vs.TailForWin.Core.Extensions;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 {
   /// <summary>
   /// XML FileManager controller

@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Events.Args;
+﻿using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Events.Delegates
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Delegates
 {
   /// <summary>
   /// Selected lines changed event handler

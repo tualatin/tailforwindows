@@ -1,9 +1,8 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 using OfficeOpenXml;
-using Org.Vs.Tail4Win.Core.Extensions;
+using Org.Vs.TailForWin.Core.Extensions;
 
-namespace Org.Vs.Tail4Win.Business.ExportEngine.Extensions
+namespace Org.Vs.TailForWin.Business.ExportEngine.Extensions
 {
   /// <summary>
   /// EPPlus extension

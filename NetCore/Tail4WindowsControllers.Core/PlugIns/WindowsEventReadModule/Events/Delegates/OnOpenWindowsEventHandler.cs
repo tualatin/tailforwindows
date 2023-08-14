@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Controllers.PlugIns.WindowsEventReadModule.Events.Args;
+﻿using Org.Vs.TailForWin.Controllers.PlugIns.WindowsEventReadModule.Events.Args;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.WindowsEventReadModule.Events.Delegates
+namespace Org.Vs.TailForWin.Controllers.PlugIns.WindowsEventReadModule.Events.Delegates
 {
   /// <summary>
   /// On open Windows event handler

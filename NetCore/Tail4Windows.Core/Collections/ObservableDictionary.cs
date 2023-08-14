@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Org.Vs.Tail4Win.Core.Interfaces;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Core.Collections
+namespace Org.Vs.TailForWin.Core.Collections
 {
   /// <summary>
   /// ObservableDictionary

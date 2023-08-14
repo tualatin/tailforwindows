@@ -4,14 +4,14 @@ using System.Net.Sockets;
 using System.Reflection;
 using log4net;
 using Microsoft.Win32;
-using Org.Vs.Tail4Win.Business.Data.SystemInformation;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Native;
-using Org.Vs.Tail4Win.Core.Native.Data;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Business.Data.SystemInformation;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Native;
+using Org.Vs.TailForWin.Core.Native.Data;
+using Org.Vs.TailForWin.Core.Utils;
 using Application = System.Windows.Forms.Application;
 
-namespace Org.Vs.Tail4Win.Business.Controllers
+namespace Org.Vs.TailForWin.Business.Controllers
 {
   /// <summary>
   /// System information controller

@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Core.SingleInstanceCore
+﻿namespace Org.Vs.TailForWin.Core.SingleInstanceCore
 {
   public interface ISingleInstance
   {

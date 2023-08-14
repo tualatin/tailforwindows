@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Business.BookmarkEngine.Events.Args
+﻿namespace Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args
 {
   /// <summary>
   /// IdChanged event args

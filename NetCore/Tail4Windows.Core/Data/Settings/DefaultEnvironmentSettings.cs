@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using Org.Vs.Tail4Win.Core.Enums;
+using Org.Vs.TailForWin.Core.Enums;
 
-namespace Org.Vs.Tail4Win.Core.Data.Settings
+namespace Org.Vs.TailForWin.Core.Data.Settings
 {
   /// <summary>
   /// Default environment settings

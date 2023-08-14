@@ -1,10 +1,10 @@
 ﻿using log4net;
-using Org.Vs.Tail4Win.Business.Utils.Interfaces;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Business.Utils.Interfaces;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils;
 using Application = System.Windows.Application;
 
-namespace Org.Vs.Tail4Win.Business.Utils
+namespace Org.Vs.TailForWin.Business.Utils
 {
   /// <summary>
   /// Converts a roaming profile, if exists, to local profile <c>Or</c>

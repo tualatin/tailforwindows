@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Core.Data.XmlNames
+﻿namespace Org.Vs.TailForWin.Core.Data.XmlNames
 {
   /// <summary>
   /// Current XML names

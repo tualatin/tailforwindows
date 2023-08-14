@@ -1,15 +1,15 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using log4net;
-using Org.Vs.Tail4Win.Business.SmartWatchEngine.Controllers;
-using Org.Vs.Tail4Win.Business.SmartWatchEngine.Interfaces;
-using Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Interfaces;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 {
   /// <summary>
   /// FileManager (for JSON use only) controller

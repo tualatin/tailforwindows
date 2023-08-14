@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Org.Vs.Tail4Win.Controllers.UI.Interfaces;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Controllers.UI.Interfaces;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.PatternModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces
 {
   /// <summary>
   /// PatternControl view model interface

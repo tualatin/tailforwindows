@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Org.Vs.Tail4Win.Core.Data.Base
+namespace Org.Vs.TailForWin.Core.Data.Base
 {
   /// <inheritdoc />
   /// <summary>

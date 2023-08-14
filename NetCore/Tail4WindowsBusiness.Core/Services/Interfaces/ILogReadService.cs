@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using Org.Vs.Tail4Win.Business.Services.Data;
-using Org.Vs.Tail4Win.Business.Services.Events.Delegates;
-using Org.Vs.Tail4Win.Business.SmartWatchEngine.Interfaces;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Services.Events.Delegates;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Business.Services.Interfaces
+namespace Org.Vs.TailForWin.Business.Services.Interfaces
 {
   /// <summary>
   /// Log read service interface
@@ -46,7 +46,7 @@ namespace Org.Vs.Tail4Win.Business.Services.Interfaces
     }
 
     /// <summary>
-    /// <see cref="Core.Data.TailData"/>
+    /// <see cref="TailForWin.Core.Data.TailData"/>
     /// </summary>
     TailData TailData
     {

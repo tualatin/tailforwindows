@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
-using Org.Vs.Tail4Win.Core.Attributes;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Extensions;
+using Org.Vs.TailForWin.Core.Attributes;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Extensions;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Build date of assembly

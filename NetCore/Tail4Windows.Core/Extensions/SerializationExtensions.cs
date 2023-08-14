@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Org.Vs.Tail4Win.Core.Extensions
+namespace Org.Vs.TailForWin.Core.Extensions
 {
   internal static class SerializationExtensions
   {

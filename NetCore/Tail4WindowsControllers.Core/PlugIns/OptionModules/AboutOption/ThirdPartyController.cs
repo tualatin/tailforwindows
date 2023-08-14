@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.AboutOption.Data;
-using Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.AboutOption.Interfaces;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Interfaces;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.AboutOption
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption
 {
   /// <summary>
   /// ThirdParty controller

@@ -2,14 +2,14 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using log4net;
-using Org.Vs.Tail4Win.Business.BookmarkEngine.Events.Args;
-using Org.Vs.Tail4Win.Business.BookmarkEngine.Events.Delegates;
-using Org.Vs.Tail4Win.Business.BookmarkEngine.Interfaces;
-using Org.Vs.Tail4Win.Business.Services.Data;
-using Org.Vs.Tail4Win.Business.Utils;
-using Org.Vs.Tail4Win.Core.Collections;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Delegates;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Collections;
 
-namespace Org.Vs.Tail4Win.Business.BookmarkEngine.Controllers
+namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
 {
   /// <summary>
   /// Bookmark manager

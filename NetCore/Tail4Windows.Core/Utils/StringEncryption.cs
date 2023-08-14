@@ -2,9 +2,9 @@
 using System.Security.Cryptography;
 using System.Text;
 using log4net;
-using Org.Vs.Tail4Win.Core.Logging;
+using Org.Vs.TailForWin.Core.Logging;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Simple string encryption class to encrypt and decrypt passwords

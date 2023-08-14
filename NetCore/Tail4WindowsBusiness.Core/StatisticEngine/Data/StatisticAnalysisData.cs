@@ -1,7 +1,7 @@
-﻿using Org.Vs.Tail4Win.Business.StatisticEngine.DbScheme;
-using Org.Vs.Tail4Win.Core.Data.Base;
+﻿using Org.Vs.TailForWin.Business.StatisticEngine.DbScheme;
+using Org.Vs.TailForWin.Core.Data.Base;
 
-namespace Org.Vs.Tail4Win.Business.StatisticEngine.Data
+namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
 {
   /// <summary>
   /// Statistic analysis data

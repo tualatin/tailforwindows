@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Business.DbEngine.Interfaces
+﻿namespace Org.Vs.TailForWin.Business.DbEngine.Interfaces
 {
   /// <summary>
   /// Settings DataBase controller interface

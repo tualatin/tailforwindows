@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using Org.Vs.Tail4Win.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
 
-namespace Org.Vs.Tail4Win.Business.Utils.Interfaces
+namespace Org.Vs.TailForWin.Business.Utils.Interfaces
 {
   /// <summary>
   /// CacheManager interface

@@ -7,9 +7,9 @@ using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Windows;
 using log4net;
-using Org.Vs.Tail4Win.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Base;
 
-namespace Org.Vs.Tail4Win.Core.Collections.FilterCollections
+namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 {
   /// <summary>
   /// Virtual Studio Collection view

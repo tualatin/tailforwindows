@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
 {
   /// <summary>
   /// Import/Export controller interface

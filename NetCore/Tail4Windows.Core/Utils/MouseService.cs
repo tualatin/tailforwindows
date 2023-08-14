@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Contains helper methods for UI, so far just one for showing a waitcursor

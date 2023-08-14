@@ -2,9 +2,9 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
-using Org.Vs.Tail4Win.Core.Controllers;
+using Org.Vs.TailForWin.Core.Controllers;
 
-namespace Org.Vs.Tail4Win.Core.Extensions
+namespace Org.Vs.TailForWin.Core.Extensions
 {
   /// <summary>
   /// String extension class

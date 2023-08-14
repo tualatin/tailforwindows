@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using Org.Vs.Tail4Win.Core.Collections;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Collections;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data.Base;
 
-namespace Org.Vs.Tail4Win.Core.Data
+namespace Org.Vs.TailForWin.Core.Data
 {
   /// <summary>
   /// Log file history data

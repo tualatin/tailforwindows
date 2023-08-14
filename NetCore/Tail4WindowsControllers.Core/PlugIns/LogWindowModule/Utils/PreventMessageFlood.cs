@@ -1,7 +1,7 @@
-﻿using Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Interfaces;
-using Org.Vs.Tail4Win.Core.Data.Base;
+﻿using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.Core.Data.Base;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Utils
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Utils
 {
   /// <summary>
   /// Prevent message flood util

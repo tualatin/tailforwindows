@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.BookmarkCommentModule.Interfaces
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkCommentModule.Interfaces
 {
   /// <summary>
   /// AddBookmarkComment view model interface

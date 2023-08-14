@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Core.Utils.UndoRedoManager.Interfaces
+﻿namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager.Interfaces
 {
   /// <summary>
   /// StateManager interface

@@ -3,10 +3,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
-using Org.Vs.Tail4Win.Controllers.Commands.Interfaces;
-using Org.Vs.Tail4Win.Controllers.UI.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
 {
   /// <summary>
   /// FileManager view model interface

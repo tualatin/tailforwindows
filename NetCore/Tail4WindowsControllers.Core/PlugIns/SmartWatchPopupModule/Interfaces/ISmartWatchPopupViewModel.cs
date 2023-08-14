@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Org.Vs.Tail4Win.Controllers.PlugIns.SmartWatchPopupModule.Events.Delegates;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Events.Delegates;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.SmartWatchPopupModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Interfaces
 {
   /// <summary>
   /// SmartWatch popup view model interface

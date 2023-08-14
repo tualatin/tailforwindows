@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.BookmarkOverviewModule.Data
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Data
 {
   /// <summary>
   /// Bookmark export data

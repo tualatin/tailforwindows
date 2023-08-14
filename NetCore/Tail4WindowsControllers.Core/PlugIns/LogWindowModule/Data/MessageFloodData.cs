@@ -1,7 +1,7 @@
-﻿using Org.Vs.Tail4Win.Business.Services.Data;
-using Org.Vs.Tail4Win.Core.Data;
+﻿using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Data
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
 {
   /// <summary>
   /// MessageFloodData;

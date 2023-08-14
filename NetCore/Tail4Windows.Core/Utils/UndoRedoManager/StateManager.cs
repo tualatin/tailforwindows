@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Org.Vs.Tail4Win.Core.Data.Base;
-using Org.Vs.Tail4Win.Core.Utils.UndoRedoManager.Interfaces;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils.UndoRedoManager.Interfaces;
 
-namespace Org.Vs.Tail4Win.Core.Utils.UndoRedoManager
+namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
 {
   /// <summary>
   /// StateManager

@@ -1,15 +1,15 @@
 ﻿using System.IO;
 using System.Xml.Linq;
 using log4net;
-using Org.Vs.Tail4Win.Controllers.PlugIns.PatternModule.Data;
-using Org.Vs.Tail4Win.Controllers.PlugIns.PatternModule.Interfaces;
-using Org.Vs.Tail4Win.Core.Collections;
-using Org.Vs.Tail4Win.Core.Data.XmlNames;
-using Org.Vs.Tail4Win.Core.Extensions;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces;
+using Org.Vs.TailForWin.Core.Collections;
+using Org.Vs.TailForWin.Core.Data.XmlNames;
+using Org.Vs.TailForWin.Core.Extensions;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.PatternModule
+namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule
 {
   /// <summary>
   /// XML default pattern controller

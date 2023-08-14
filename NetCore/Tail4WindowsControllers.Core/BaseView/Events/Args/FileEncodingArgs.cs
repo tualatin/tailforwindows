@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Org.Vs.Tail4Win.Controllers.BaseView.Events.Args
+namespace Org.Vs.TailForWin.Controllers.BaseView.Events.Args
 {
   /// <summary>
   /// FileEncoding event args

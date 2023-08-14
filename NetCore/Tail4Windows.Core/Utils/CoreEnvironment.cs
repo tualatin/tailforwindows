@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Windows;
-using Org.Vs.Tail4Win.Core.Controllers;
+using Org.Vs.TailForWin.Core.Controllers;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// CoreEnvironment

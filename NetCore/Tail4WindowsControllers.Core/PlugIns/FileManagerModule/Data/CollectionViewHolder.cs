@@ -1,6 +1,6 @@
 ﻿using System.Windows.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FileManagerModule.Data
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data
 {
   /// <summary>
   /// TailManager collection view holder

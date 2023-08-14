@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Core.Attributes
+﻿namespace Org.Vs.TailForWin.Core.Attributes
 {
   /// <summary>
   /// BuildDate attribute

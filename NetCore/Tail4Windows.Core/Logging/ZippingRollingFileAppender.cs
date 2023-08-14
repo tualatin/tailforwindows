@@ -3,7 +3,7 @@ using System.IO.Compression;
 using System.Text;
 using log4net.Appender;
 
-namespace Org.Vs.Tail4Win.Core.Logging
+namespace Org.Vs.TailForWin.Core.Logging
 {
   /// <summary>
   /// Zipping rolling file appender

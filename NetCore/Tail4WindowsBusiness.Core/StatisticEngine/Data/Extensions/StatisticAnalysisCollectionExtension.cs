@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Business.StatisticEngine.Interfaces;
+﻿using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 
-namespace Org.Vs.Tail4Win.Business.StatisticEngine.Data.Extensions
+namespace Org.Vs.TailForWin.Business.StatisticEngine.Data.Extensions
 {
   /// <summary>
   /// <see cref="IStatisticAnalysisCollection{T}"/> extension

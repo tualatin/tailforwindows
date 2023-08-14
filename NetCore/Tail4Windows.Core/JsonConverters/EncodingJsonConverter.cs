@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using log4net;
 using Newtonsoft.Json;
-using Org.Vs.Tail4Win.Core.Logging;
+using Org.Vs.TailForWin.Core.Logging;
 
-namespace Org.Vs.Tail4Win.Core.JsonConverters
+namespace Org.Vs.TailForWin.Core.JsonConverters
 {
   /// <summary>
   /// File encoding JSON converter

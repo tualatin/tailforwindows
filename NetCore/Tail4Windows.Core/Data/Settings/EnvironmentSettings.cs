@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using Newtonsoft.Json;
-using Org.Vs.Tail4Win.Core.Data.Base;
-using Org.Vs.Tail4Win.Core.Enums;
-using Org.Vs.Tail4Win.Core.Extensions;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Extensions;
 
-namespace Org.Vs.Tail4Win.Core.Data.Settings
+namespace Org.Vs.TailForWin.Core.Data.Settings
 {
   /// <summary>
   /// Environment settings object

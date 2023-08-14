@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Core.Data.Base;
+﻿using Org.Vs.TailForWin.Core.Data.Base;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.AboutOption.Data
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Data
 {
   /// <summary>
   /// Third party component data

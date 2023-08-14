@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using System.Windows;
-using Org.Vs.Tail4Win.Controllers.UI.Vml.Attributes;
+using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 
-namespace Org.Vs.Tail4Win.Controllers.UI.Vml
+namespace Org.Vs.TailForWin.Controllers.UI.Vml
 {
   /// <summary>
   /// View model locator

@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Controllers.PlugIns.SmartWatchPopupModule.Events.Args;
+﻿using Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Events.Args;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.SmartWatchPopupModule.Events.Delegates
+namespace Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Events.Delegates
 {
   /// <summary>
   /// SmartWatch window popup closed event handler

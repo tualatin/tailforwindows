@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.AboutOption.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.AboutOption.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Interfaces
 {
   /// <summary>
   /// ThirdParty controller interface

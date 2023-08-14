@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Core.Data;
+﻿using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.WindowsEventReadModule.Events.Args
+namespace Org.Vs.TailForWin.Controllers.PlugIns.WindowsEventReadModule.Events.Args
 {
   /// <summary>
   /// Open Windows event args
@@ -8,7 +8,7 @@ namespace Org.Vs.Tail4Win.Controllers.PlugIns.WindowsEventReadModule.Events.Args
   public class OnOpenWindowsEventArgs : EventArgs
   {
     /// <summary>
-    /// <see cref="Core.Data.TailData"/>
+    /// <see cref="TailForWin.Core.Data.TailData"/>
     /// </summary>
     public TailData TailData
     {
@@ -18,7 +18,7 @@ namespace Org.Vs.Tail4Win.Controllers.PlugIns.WindowsEventReadModule.Events.Args
     /// <summary>
     /// Standard constructor
     /// </summary>
-    /// <param name="tailData"><see cref="Core.Data.TailData"/></param>
+    /// <param name="tailData"><see cref="TailForWin.Core.Data.TailData"/></param>
     public OnOpenWindowsEventArgs(TailData tailData) => TailData = tailData;
   }
 }

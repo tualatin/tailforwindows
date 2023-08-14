@@ -1,9 +1,9 @@
-﻿using Org.Vs.Tail4Win.Core.Utils;
+﻿using Org.Vs.TailForWin.Core.Utils;
 
 // ReSharper disable PossibleMultipleEnumeration
 
 
-namespace Org.Vs.Tail4Win.Core.Extensions
+namespace Org.Vs.TailForWin.Core.Extensions
 {
   /// <summary>
   /// Enumerable extension

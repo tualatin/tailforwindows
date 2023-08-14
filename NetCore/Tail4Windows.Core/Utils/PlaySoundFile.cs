@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Text;
 using log4net;
-using Org.Vs.Tail4Win.Core.Interfaces;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Native;
+using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Native;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Plays a sound media file

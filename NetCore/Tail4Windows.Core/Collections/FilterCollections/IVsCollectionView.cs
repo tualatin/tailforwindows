@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Org.Vs.Tail4Win.Core.Collections.FilterCollections
+namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 {
   /// <summary>
   /// Virtual Studios Collection view interface

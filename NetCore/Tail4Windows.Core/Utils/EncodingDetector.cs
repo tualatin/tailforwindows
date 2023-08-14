@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Encoding detector class

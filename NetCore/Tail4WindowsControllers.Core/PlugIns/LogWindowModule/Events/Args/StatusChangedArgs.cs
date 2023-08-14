@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Org.Vs.Tail4Win.Core.Enums;
+using Org.Vs.TailForWin.Core.Enums;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Events.Args
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args
 {
   /// <summary>
   /// StatusChanged args

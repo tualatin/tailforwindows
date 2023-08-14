@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Controllers.UI.Interfaces;
+﻿using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.AboutOption.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Interfaces
 {
   /// <summary>
   /// System information view model interface

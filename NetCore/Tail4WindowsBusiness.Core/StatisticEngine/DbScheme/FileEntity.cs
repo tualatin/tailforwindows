@@ -1,7 +1,7 @@
 ﻿using LiteDB;
-using Org.Vs.Tail4Win.Business.StatisticEngine.Data;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 
-namespace Org.Vs.Tail4Win.Business.StatisticEngine.DbScheme
+namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
 {
   /// <summary>
   /// File entity

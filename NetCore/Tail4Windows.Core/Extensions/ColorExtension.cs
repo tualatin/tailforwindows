@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Org.Vs.Tail4Win.Core.Extensions
+namespace Org.Vs.TailForWin.Core.Extensions
 {
   /// <summary>
   /// Color extension

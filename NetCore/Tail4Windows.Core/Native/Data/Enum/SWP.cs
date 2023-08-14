@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Core.Native.Data.Enum
+﻿namespace Org.Vs.TailForWin.Core.Native.Data.Enum
 {
   /// <summary>
   /// Set window position flags

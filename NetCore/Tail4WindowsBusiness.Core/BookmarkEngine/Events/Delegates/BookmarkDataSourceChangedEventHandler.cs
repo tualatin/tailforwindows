@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Business.BookmarkEngine.Events.Args;
+﻿using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args;
 
-namespace Org.Vs.Tail4Win.Business.BookmarkEngine.Events.Delegates
+namespace Org.Vs.TailForWin.Business.BookmarkEngine.Events.Delegates
 {
   /// <summary>
   /// Bookmark data source changed event handler

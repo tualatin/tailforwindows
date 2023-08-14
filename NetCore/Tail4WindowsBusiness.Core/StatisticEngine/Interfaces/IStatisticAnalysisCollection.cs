@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Org.Vs.Tail4Win.Business.StatisticEngine.Interfaces
+namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
 {
   /// <summary>
   /// Statistic analysis collection interface

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Org.Vs.Tail4Win.Core.Collections
+namespace Org.Vs.TailForWin.Core.Collections
 {
   /// <summary>
   /// A generic queue set

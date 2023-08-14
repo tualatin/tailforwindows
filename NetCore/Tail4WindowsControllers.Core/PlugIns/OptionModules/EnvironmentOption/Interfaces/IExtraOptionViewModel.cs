@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
 {
   /// <summary>
   /// Extra option view model interface

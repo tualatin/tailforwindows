@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Core.Utils
+﻿namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Extension method for execution on UI thread for an action

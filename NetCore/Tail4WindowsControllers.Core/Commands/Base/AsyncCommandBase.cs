@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
-using Org.Vs.Tail4Win.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 
-namespace Org.Vs.Tail4Win.Controllers.Commands.Base
+namespace Org.Vs.TailForWin.Controllers.Commands.Base
 {
   /// <summary>
   /// Async command base

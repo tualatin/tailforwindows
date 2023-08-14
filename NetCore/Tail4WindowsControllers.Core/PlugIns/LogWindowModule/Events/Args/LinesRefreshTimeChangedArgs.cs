@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Events.Args
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args
 {
   /// <summary>
   /// Lines refresh time changed event args

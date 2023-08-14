@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.StatisticAnalysis.Data
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data
 {
   /// <summary>
   /// Date model

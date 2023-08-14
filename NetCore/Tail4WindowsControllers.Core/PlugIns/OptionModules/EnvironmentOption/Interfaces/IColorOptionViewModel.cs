@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.EnvironmentOption.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
 {
   /// <summary>
   /// Color option view model interface

@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.UI.Vml.Attributes
+﻿namespace Org.Vs.TailForWin.Controllers.UI.Vml.Attributes
 {
   /// <summary>
   /// Locator attribute

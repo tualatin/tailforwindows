@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using Newtonsoft.Json;
-using Org.Vs.Tail4Win.Core.Data.Settings;
-using Org.Vs.Tail4Win.Core.Utils.UndoRedoManager;
+using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
-namespace Org.Vs.Tail4Win.Core.Data
+namespace Org.Vs.TailForWin.Core.Data
 {
   /// <summary>
   /// Filter data object

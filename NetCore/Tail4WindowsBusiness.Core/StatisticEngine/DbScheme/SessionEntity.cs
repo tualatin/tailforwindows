@@ -1,6 +1,6 @@
 ﻿using LiteDB;
 
-namespace Org.Vs.Tail4Win.Business.StatisticEngine.DbScheme
+namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
 {
   /// <summary>
   /// Session entity

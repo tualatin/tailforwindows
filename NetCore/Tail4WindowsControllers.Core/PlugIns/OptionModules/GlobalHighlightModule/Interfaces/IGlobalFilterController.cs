@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces
 {
   /// <summary>
   /// Global filter controller interface

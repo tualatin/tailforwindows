@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Input;
-using Org.Vs.Tail4Win.Controllers.Commands.Interfaces;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
 {
   /// <summary>
   /// Global highlight option view model interface

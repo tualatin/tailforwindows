@@ -1,20 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Text;
 using System.Windows.Media;
 using Microsoft.Win32;
-using Org.Vs.Tail4Win.Business.BookmarkEngine.Controllers;
-using Org.Vs.Tail4Win.Business.BookmarkEngine.Interfaces;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data.Base;
-using Org.Vs.Tail4Win.Core.Data.Mappings;
-using Org.Vs.Tail4Win.Core.Enums;
-using Org.Vs.Tail4Win.Core.Interfaces;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Controllers;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Mappings;
+using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Business.Utils
+namespace Org.Vs.TailForWin.Business.Utils
 {
   /// <summary>
   /// Environment container for T4W as singleton

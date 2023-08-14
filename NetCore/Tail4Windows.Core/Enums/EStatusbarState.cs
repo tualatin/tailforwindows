@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Core.Enums
+﻿namespace Org.Vs.TailForWin.Core.Enums
 {
   /// <summary>
   /// Statusbar states

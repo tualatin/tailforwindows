@@ -1,9 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using log4net;
-using Org.Vs.Tail4Win.Core.Logging;
+using Org.Vs.TailForWin.Core.Logging;
 
-namespace Org.Vs.Tail4Win.Core.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Enable throttled execution from certain actions

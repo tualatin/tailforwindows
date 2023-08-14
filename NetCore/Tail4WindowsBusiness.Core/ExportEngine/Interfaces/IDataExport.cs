@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Core.Data.Base;
+﻿using Org.Vs.TailForWin.Core.Data.Base;
 
-namespace Org.Vs.Tail4Win.Business.ExportEngine.Interfaces
+namespace Org.Vs.TailForWin.Business.ExportEngine.Interfaces
 {
   /// <summary>
   /// Data export interface

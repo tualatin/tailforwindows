@@ -1,7 +1,7 @@
-﻿using Org.Vs.Tail4Win.Core.Enums;
-using Org.Vs.Tail4Win.Core.Utils;
+﻿using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Core.Data.Settings
+namespace Org.Vs.TailForWin.Core.Data.Settings
 {
   /// <summary>
   /// Environment settings object

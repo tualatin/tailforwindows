@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using Newtonsoft.Json;
-using Org.Vs.Tail4Win.Core.Data.Base;
-using Org.Vs.Tail4Win.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Interfaces;
 
-namespace Org.Vs.Tail4Win.Core.Data.Settings
+namespace Org.Vs.TailForWin.Core.Data.Settings
 {
   /// <summary>
   /// SMTP settings

@@ -3,14 +3,14 @@ using System.IO;
 using System.Windows;
 using log4net;
 using Newtonsoft.Json;
-using Org.Vs.Tail4Win.Core.Data.Settings;
-using Org.Vs.Tail4Win.Core.Enums;
-using Org.Vs.Tail4Win.Core.Extensions;
-using Org.Vs.Tail4Win.Core.Interfaces;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Extensions;
+using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Core.Controllers
+namespace Org.Vs.TailForWin.Core.Controllers
 {
   /// <inheritdoc />
   /// <summary>

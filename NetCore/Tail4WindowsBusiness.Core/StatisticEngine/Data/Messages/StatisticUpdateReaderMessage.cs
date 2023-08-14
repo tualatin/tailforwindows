@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Business.StatisticEngine.Data.Messages
+﻿namespace Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages
 {
   /// <summary>
   /// Informs the statistic, to update current file

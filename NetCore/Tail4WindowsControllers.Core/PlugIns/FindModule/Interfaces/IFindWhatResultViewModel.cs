@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Input;
-using Org.Vs.Tail4Win.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.FindModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces
 {
   /// <summary>
   /// FindResult view model interface

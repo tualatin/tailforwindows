@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Controllers.Commands.Interfaces;
+﻿using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
 {
   /// <summary>
   /// Import export option view model interface

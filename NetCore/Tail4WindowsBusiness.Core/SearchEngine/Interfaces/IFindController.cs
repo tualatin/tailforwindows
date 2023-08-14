@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Core.Data;
+﻿using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Business.SearchEngine.Interfaces
+namespace Org.Vs.TailForWin.Business.SearchEngine.Interfaces
 {
   /// <summary>
   /// FindController interface

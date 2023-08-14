@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Controllers.UI.Interfaces;
+﻿using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
 {
   /// <summary>
   /// Option base view model interface

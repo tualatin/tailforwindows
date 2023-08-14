@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Org.Vs.Tail4Win.Core.Native.Data
+namespace Org.Vs.TailForWin.Core.Native.Data
 {
   /// <summary>
   /// Contains information about a window's maximized size and position and its minimum and maximum tracking size.

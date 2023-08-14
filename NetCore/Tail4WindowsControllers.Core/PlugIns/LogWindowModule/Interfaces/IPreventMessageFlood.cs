@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule.Interfaces
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
 {
   /// <summary>
   /// Prevent message flood interface

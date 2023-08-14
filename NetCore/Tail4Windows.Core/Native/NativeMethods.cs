@@ -1,14 +1,14 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
-using Org.Vs.Tail4Win.Core.Native.Data;
+using Org.Vs.TailForWin.Core.Native.Data;
 
 // ReSharper disable InconsistentNaming
 
 [assembly: InternalsVisibleTo("T4W")]
 [assembly: InternalsVisibleTo("T4W.Business")]
 [assembly: InternalsVisibleTo("T4WUi.Utils")]
-namespace Org.Vs.Tail4Win.Core.Native
+namespace Org.Vs.TailForWin.Core.Native
 {
   /// <summary>
   /// Native windows methods for .NET

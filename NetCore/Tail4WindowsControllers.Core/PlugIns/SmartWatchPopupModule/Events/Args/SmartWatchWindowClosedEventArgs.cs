@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.SmartWatchPopupModule.Events.Args
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Events.Args
 {
   /// <summary>
   /// SmartWatch window closed event args

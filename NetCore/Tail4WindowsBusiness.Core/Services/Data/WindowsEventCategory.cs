@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Core.Data.Base;
+﻿using Org.Vs.TailForWin.Core.Data.Base;
 
-namespace Org.Vs.Tail4Win.Business.Services.Data
+namespace Org.Vs.TailForWin.Business.Services.Data
 {
   /// <summary>
   /// Windows event category data object

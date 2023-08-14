@@ -3,7 +3,7 @@
 // ReSharper disable PossibleMultipleEnumeration
 
 
-namespace Org.Vs.Tail4Win.Core.Extensions
+namespace Org.Vs.TailForWin.Core.Extensions
 {
   /// <summary>
   /// <see cref="ObservableCollection{T}"/> extension

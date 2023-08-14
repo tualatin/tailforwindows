@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace Org.Vs.Tail4Win.Controllers.Commands
+namespace Org.Vs.TailForWin.Controllers.Commands
 {
   /// <summary>
   /// Mouse behaviours

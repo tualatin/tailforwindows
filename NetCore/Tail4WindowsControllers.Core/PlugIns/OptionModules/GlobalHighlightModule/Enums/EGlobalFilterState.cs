@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Enums
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Enums
 {
   /// <summary>
   /// Global filter state

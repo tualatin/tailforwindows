@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Org.Vs.Tail4Win.Core.Data.Mappings
+namespace Org.Vs.TailForWin.Core.Data.Mappings
 {
   /// <summary>
   /// System Threading priority enum mapping 

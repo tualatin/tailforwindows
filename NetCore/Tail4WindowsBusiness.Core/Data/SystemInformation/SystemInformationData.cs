@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Native.Data;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Native.Data;
 
-namespace Org.Vs.Tail4Win.Business.Data.SystemInformation
+namespace Org.Vs.TailForWin.Business.Data.SystemInformation
 {
   /// <summary>
   /// SystemInformationData object

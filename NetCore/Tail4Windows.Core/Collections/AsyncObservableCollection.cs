@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 using log4net;
 
-namespace Org.Vs.Tail4Win.Core.Collections
+namespace Org.Vs.TailForWin.Core.Collections
 {
   /// <summary>
   /// Async <see cref="ObservableCollection{T}"/>

@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using log4net;
-using Org.Vs.Tail4Win.Business.SearchEngine.Interfaces;
-using Org.Vs.Tail4Win.Core.Data;
+using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Business.SearchEngine.Controllers
+namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
 {
   /// <summary>
   /// FindController

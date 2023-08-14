@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.Tail4Win.Controllers.PlugIns.PatternModule.Data
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data
 {
   /// <summary>
   /// Pattern module XML structure

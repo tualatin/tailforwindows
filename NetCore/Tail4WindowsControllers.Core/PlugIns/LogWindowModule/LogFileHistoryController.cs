@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using log4net;
-using Org.Vs.Tail4Win.Core.Collections;
-using Org.Vs.Tail4Win.Core.Data;
-using Org.Vs.Tail4Win.Core.Interfaces;
-using Org.Vs.Tail4Win.Core.Logging;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Core.Collections;
+using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Logging;
+using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.LogWindowModule
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 {
   /// <summary>
   /// Log file history controller

@@ -1,7 +1,7 @@
-﻿using Org.Vs.Tail4Win.Business.SmartWatchEngine.Events.Delegates;
-using Org.Vs.Tail4Win.Core.Data;
+﻿using Org.Vs.TailForWin.Business.SmartWatchEngine.Events.Delegates;
+using Org.Vs.TailForWin.Core.Data;
 
-namespace Org.Vs.Tail4Win.Business.SmartWatchEngine.Interfaces
+namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces
 {
   /// <summary>
   /// SmartWatch interface

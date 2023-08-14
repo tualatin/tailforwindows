@@ -1,6 +1,6 @@
 ﻿using log4net;
 
-namespace Org.Vs.Tail4Win.Core.Logging
+namespace Org.Vs.TailForWin.Core.Logging
 {
   /// <summary>
   /// log4net Logger

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Org.Vs.Tail4Win.Core.Enums
+namespace Org.Vs.TailForWin.Core.Enums
 {
   /// <summary>
   /// Enum File sort

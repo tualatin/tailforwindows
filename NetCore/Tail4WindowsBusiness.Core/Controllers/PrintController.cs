@@ -2,13 +2,13 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using Org.Vs.Tail4Win.Business.Services.Data;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Data;
-using Org.Vs.Tail4Win.Core.Utils;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Utils;
 using PrintDialog = System.Windows.Controls.PrintDialog;
 
-namespace Org.Vs.Tail4Win.Business.Controllers
+namespace Org.Vs.TailForWin.Business.Controllers
 {
   /// <summary>
   /// Print controller

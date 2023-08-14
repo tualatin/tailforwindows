@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Org.Vs.Tail4Win.Controllers.BaseView.Events.Delegates;
+using Org.Vs.TailForWin.Controllers.BaseView.Events.Delegates;
 
-namespace Org.Vs.Tail4Win.Controllers.BaseView.Interfaces
+namespace Org.Vs.TailForWin.Controllers.BaseView.Interfaces
 {
   /// <summary>
   /// BaseWindowStatusbar view model interface

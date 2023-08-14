@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Org.Vs.Tail4Win.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Base;
 
-namespace Org.Vs.Tail4Win.Core.Data
+namespace Org.Vs.TailForWin.Core.Data
 {
   /// <summary>
   /// FontInfo

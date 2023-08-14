@@ -2,11 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using log4net;
-using Org.Vs.Tail4Win.Controllers.Commands.Base;
-using Org.Vs.Tail4Win.Core.Data.Base;
-using Org.Vs.Tail4Win.Core.Logging;
+using Org.Vs.TailForWin.Controllers.Commands.Base;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Logging;
 
-namespace Org.Vs.Tail4Win.Controllers.Commands
+namespace Org.Vs.TailForWin.Controllers.Commands
 {
   /// <summary>
   /// Async command

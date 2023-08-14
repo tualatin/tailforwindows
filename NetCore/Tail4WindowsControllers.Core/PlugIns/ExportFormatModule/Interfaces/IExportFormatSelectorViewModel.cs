@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
-using Org.Vs.Tail4Win.Core.Enums;
+using Org.Vs.TailForWin.Core.Enums;
 
-namespace Org.Vs.Tail4Win.Controllers.PlugIns.ExportFormatModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Interfaces
 {
   /// <summary>
   /// Export format selector view model interface

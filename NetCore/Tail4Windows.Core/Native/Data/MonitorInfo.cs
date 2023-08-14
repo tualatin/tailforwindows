@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Org.Vs.Tail4Win.Core.Native.Data
+namespace Org.Vs.TailForWin.Core.Native.Data
 {
   /// <summary>
   /// The MONITORINFO structure contains information about a display monitor.

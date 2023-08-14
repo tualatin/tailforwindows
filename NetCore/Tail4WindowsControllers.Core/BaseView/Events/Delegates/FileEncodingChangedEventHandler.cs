@@ -1,6 +1,6 @@
-﻿using Org.Vs.Tail4Win.Controllers.BaseView.Events.Args;
+﻿using Org.Vs.TailForWin.Controllers.BaseView.Events.Args;
 
-namespace Org.Vs.Tail4Win.Controllers.BaseView.Events.Delegates
+namespace Org.Vs.TailForWin.Controllers.BaseView.Events.Delegates
 {
   /// <summary>
   /// File encoding changed event handler

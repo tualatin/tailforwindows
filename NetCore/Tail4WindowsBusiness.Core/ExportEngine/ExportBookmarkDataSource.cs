@@ -1,13 +1,13 @@
 ﻿using log4net;
 using OfficeOpenXml;
-using Org.Vs.Tail4Win.Business.ExportEngine.Extensions;
-using Org.Vs.Tail4Win.Business.ExportEngine.Interfaces;
-using Org.Vs.Tail4Win.Business.Services.Data;
-using Org.Vs.Tail4Win.Business.Utils;
-using Org.Vs.Tail4Win.Core.Controllers;
-using Org.Vs.Tail4Win.Core.Logging;
+using Org.Vs.TailForWin.Business.ExportEngine.Extensions;
+using Org.Vs.TailForWin.Business.ExportEngine.Interfaces;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Logging;
 
-namespace Org.Vs.Tail4Win.Business.ExportEngine
+namespace Org.Vs.TailForWin.Business.ExportEngine
 {
   /// <summary>
   /// Export bookmark data source
@@ -38,7 +38,7 @@ namespace Org.Vs.Tail4Win.Business.ExportEngine
         using ( var fs = new FileStream(fileInfo.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None) )
         {
           SetCancellationTokenSource();
-          await fs.WriteAsync(csv, 0, csv.Length, _cts.Token);
+          await fs.WriteAsync(csv, _cts.Token);
         }
 
         result = true;

@@ -1,7 +1,7 @@
 ﻿using log4net;
 using log4net.Core;
 
-namespace Org.Vs.Tail4Win.Core.Logging
+namespace Org.Vs.TailForWin.Core.Logging
 {
   /// <summary>
   /// ILogExtension
