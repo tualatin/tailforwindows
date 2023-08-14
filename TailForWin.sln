@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsControllers.Cor
 		{97171C5A-EEA0-4F04-9F0A-3B7B2D155DAE} = {97171C5A-EEA0-4F04-9F0A-3B7B2D155DAE}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4Windows.Ui.Utils.Core", "NetCore\Tail4Windows.Ui.Utils.Core\Tail4Windows.Ui.Utils.Core.csproj", "{28B02C43-F445-4BD1-8009-BE5492D9FC81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4Windows.Ui.Utils.Core", "NetCore\Tail4Windows.Ui.Utils.Core\Tail4Windows.Ui.Utils.Core.csproj", "{28B02C43-F445-4BD1-8009-BE5492D9FC81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4Windows.Ui.Plugins.Core", "NetCore\Tail4Windows.Ui.Plugins.Core\Tail4Windows.Ui.Plugins.Core.csproj", "{BC9A3F33-C9E1-4349-A034-2786C50CDB36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -224,6 +226,22 @@ Global
 		{28B02C43-F445-4BD1-8009-BE5492D9FC81}.Release|x64.Build.0 = Release|Any CPU
 		{28B02C43-F445-4BD1-8009-BE5492D9FC81}.Release|x86.ActiveCfg = Release|Any CPU
 		{28B02C43-F445-4BD1-8009-BE5492D9FC81}.Release|x86.Build.0 = Release|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Debug|x64.Build.0 = Debug|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Debug|x86.Build.0 = Debug|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Release|x64.ActiveCfg = Release|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Release|x64.Build.0 = Release|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Release|x86.ActiveCfg = Release|Any CPU
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -233,6 +251,7 @@ Global
 		{5A002F83-17A5-403D-ADC6-246C21F9918D} = {35D990C7-F9DA-4907-9C72-2C6E3E52B2C9}
 		{AE3E5659-CA82-4CD1-B881-5FDE76130078} = {35D990C7-F9DA-4907-9C72-2C6E3E52B2C9}
 		{28B02C43-F445-4BD1-8009-BE5492D9FC81} = {35D990C7-F9DA-4907-9C72-2C6E3E52B2C9}
+		{BC9A3F33-C9E1-4349-A034-2786C50CDB36} = {35D990C7-F9DA-4907-9C72-2C6E3E52B2C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDAEB0E5-1E95-4A67-BF43-48878D46AC1C}

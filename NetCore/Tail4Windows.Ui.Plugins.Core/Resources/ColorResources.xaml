@@ -1,0 +1,65 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.Resources"
+  xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+  >
+  <!--  Glyph colors  -->
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=GlyphColor}">#888888</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=GlyphMouseOver}">#1C97EA</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=GlyphMousePressed}">#136FAE</Color>
+
+  <!--  Control colors  -->
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=DisabledControlLightColor}">#FFE8EDF9</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=DisabledControlDarkColor}">#FFC5CBF9</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=SelectedUnfocusedColor}">#FFDDDDDD</Color>
+
+  <!--  Border colors  -->
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BorderLightColor}">#FFCCCCCC</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BorderMediumColor}">#FF888888</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=DisabledBorderDarkColor}">#FF888888</Color>
+
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBorderLightColor}" Color="{StaticResource {x:Static colorResources:ColorResources.BorderLightColorKey}}" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBorderMedium}" Color="{StaticResource {x:Static colorResources:ColorResources.BorderMediumColorKey}}" po:Freeze="True" />
+
+  <!--  Color definitions  -->
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorWhite}">White</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorBlack}">Black</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorGrey02}">#FFFAFAFA</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorGrey35}">#FFBBBBBB</Color>
+
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorMenuIconPlaceColor}">#FFDCE0EC</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorStartGreen}">#FF317A2E</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorStopRed}">#FF8E210B</Color>
+
+  <!--  Color alpha definitions  -->
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorGrey03Alpha}">#4CF7F7F7</Color>
+
+  <!--  SolidColorBrush definitions  -->
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidWhite}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorWhiteKey}}" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBlack}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorBlackKey}}" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidGrey02}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorGrey02Key}}" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidGrey35}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorGrey35Key}}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBlue}" Color="#293955" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidInactiveBlue}" Color="#4B5E7F" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidMenuIconPlaceColor}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorMenuIconPlaceColorKey}}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidStartGreen}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorStartGreenKey}}" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidStopRed}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorStopRedKey}}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ScrollBarLightColor}" po:Freeze="True">#E8E8EC</SolidColorBrush>
+
+  <!--  Linear gradient brushes  -->
+  <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ButtonOverBackground}" StartPoint="0,0" EndPoint="0,1">
+    <GradientStop Color="{DynamicResource {x:Static colorResources:ColorResources.ColorGrey02Key}}" />
+    <GradientStop Offset="1" Color="#FFE0E0E3" />
+  </LinearGradientBrush>
+
+  <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ButtonNormalBackground}" StartPoint="0,0" EndPoint="0,1">
+    <GradientStop Color="#F3F3F3" />
+    <GradientStop Offset="0.5" Color="#EBEBEB" />
+    <GradientStop Offset="0.5" Color="#DDDDDD" />
+    <GradientStop Offset="1" Color="#CDCDCD" />
+  </LinearGradientBrush>
+</ResourceDictionary>

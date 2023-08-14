@@ -2,18 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Org.Vs.TailForWin.Ui.PlugIns</RootNamespace>
     <Nullable>disable</Nullable>
-    <RootNamespace>Org.Vs.TailForWin.Business</RootNamespace>
-    <AssemblyName>T4W.Business</AssemblyName>
-    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
     <PlatformTarget>x64</PlatformTarget>
-    <Product>T4WBusiness</Product>
-    <Description>Professional log reader for Windows® Core</Description>
-    <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
     <Company>Virtual Studios</Company>
-    <AssemblyVersion>1.0.30.0</AssemblyVersion>
-    <FileVersion>1.0.30.0</FileVersion>
+    <Product>T4WUi.Plugins</Product>
+    <Description>Professional log reader for Windows® UI Utils</Description>
+    <Copyright>Copyright ©  2019 - 2023 M. Zoennchen</Copyright>
+    <AssemblyName>T4W.Ui.Plugins</AssemblyName>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+    <FileVersion>1.0.7.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,16 +42,40 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="6.2.7" />
-    <PackageReference Include="EPPlus.Interfaces" Version="6.1.1" />
-    <PackageReference Include="EPPlus.System.Drawing" Version="6.1.1" />
-    <PackageReference Include="LiteDB" Version="5.0.17" />
+    <Page Remove="Resources.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Resources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="System.Management" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Tail4Windows.Core\Tail4Windows.Core.csproj" />
+    <ProjectReference Include="..\Tail4Windows.Ui.Utils.Core\Tail4Windows.Ui.Utils.Core.csproj" />
+    <ProjectReference Include="..\Tail4WindowsBusiness.Core\Tail4WindowsBusiness.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="BasicWindow\MainWindowToolbarButtons.xaml.cs">
+      <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="VsControls\FancyAlertPopUp.xaml.cs">
+      <DependentUpon>FancyAlertPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="VsControls\FancyNotificationPopUp.xaml.cs">
+      <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="VsControls\FancyToolTip.xaml.cs">
+      <DependentUpon>FancyToolTip.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
