@@ -196,7 +196,7 @@ namespace Org.Vs.TailForWin.UI.Utils
         }
         else
         {
-          logWindowControl = SetLogWindowControl(content, tabItem, tabItemBackgroundColor);
+          logWindowControl = SetLogWindowControl(content, tabItem, content.CurrentTailData.TabItemBackgroundColorStringHex);
 
           if ( content.TailReader != null && content.TailReader.IsBusy )
             logWindowControl.TailReader.StartTail();
@@ -216,7 +216,8 @@ namespace Org.Vs.TailForWin.UI.Utils
 
     private static ILogWindowControl SetLogWindowControl(
       ILogWindowControl content,
-      DragSupportTabItem tabItem, string tabItemBackgroundColor)
+      DragSupportTabItem tabItem,
+      string tabItemBackgroundColor)
     {
       ILogWindowControl logWindowControl = new LogWindowControl
       {
