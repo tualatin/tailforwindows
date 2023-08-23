@@ -14,6 +14,7 @@ using Org.Vs.TailForWin.Core.JsonConverters;
 using Org.Vs.TailForWin.Core.Logging;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
+
 namespace Org.Vs.TailForWin.Core.Data
 {
   /// <summary>
@@ -62,15 +63,18 @@ namespace Org.Vs.TailForWin.Core.Data
       {
       case NotifyCollectionChangedAction.Remove:
         if ( e.OldItems != null )
+        {
           foreach ( FilterData item in e.OldItems )
           {
             item.PropertyChanged -= OnFilterItemPropertyChanged;
             OnPropertyChanged(nameof(ListOfFilter));
           }
+        }
         break;
 
       case NotifyCollectionChangedAction.Add:
         if ( e.NewItems != null )
+        {
           foreach ( FilterData item in e.NewItems )
           {
             item.PropertyChanged -= OnFilterItemPropertyChanged;
@@ -78,6 +82,7 @@ namespace Org.Vs.TailForWin.Core.Data
 
             OnPropertyChanged(nameof(ListOfFilter));
           }
+        }
         break;
 
       case NotifyCollectionChangedAction.Replace:
@@ -193,6 +198,25 @@ namespace Org.Vs.TailForWin.Core.Data
 
         bool currentValue = _isWindowsEvent;
         ChangeState(new Command(() => _windowsEvent = value, () => _isWindowsEvent = currentValue, nameof(WindowsEvent), Notification));
+      }
+    }
+
+    private bool _isPinned;
+
+    /// <summary>
+    /// Is pinned
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public bool IsPinned
+    {
+      get => _isPinned;
+      set
+      {
+        if ( _isPinned == value )
+          return;
+
+        bool currentValue = _isPinned;
+        ChangeState(new Command(() => _isPinned = value, () => _isPinned = currentValue, nameof(IsPinned), Notification));
       }
     }
 
@@ -722,11 +746,13 @@ namespace Org.Vs.TailForWin.Core.Data
         case nameof(Description):
           if ( string.IsNullOrWhiteSpace(Description) )
             result = Application.Current.TryFindResource("ErrorEnterDescription").ToString();
+
           break;
 
         case nameof(FileName):
           if ( string.IsNullOrWhiteSpace(FileName) && !IsWindowsEvent )
             result = Application.Current.TryFindResource("ErrorEnterFileName").ToString();
+
           break;
         }
 

@@ -160,6 +160,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <param name="header">Name of header</param>
     /// <param name="toolTip">ToolTip</param>
     /// <param name="busyIndicator">State of busy indicator</param>
+    /// <param name="isPinned">Tab is pinned</param>
     /// <param name="content">Content as <see cref="LogWindowControl"/></param>
     /// <param name="tabItemBackgroundColor">BackgroundColor as hex string</param>
     /// <returns><see cref="DragSupportTabItem"/></returns>
@@ -168,6 +169,7 @@ namespace Org.Vs.TailForWin.UI.Utils
       string header,
       string toolTip,
       Visibility busyIndicator,
+      bool isPinned,
       ILogWindowControl content = null,
       string tabItemBackgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
     {
@@ -180,6 +182,7 @@ namespace Org.Vs.TailForWin.UI.Utils
           HeaderContent = header,
           IsSelected = true,
           HeaderToolTip = toolTip,
+          IsPinned = isPinned,
           TabItemBusyIndicator = busyIndicator
         };
 

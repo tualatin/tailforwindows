@@ -243,7 +243,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       }
     }
 
-    private async Task<ObservableCollection<TailData>> RemoveDuplicateItemsAsync(ObservableCollection<TailData> items, CancellationToken token)
+    private static async Task<ObservableCollection<TailData>> RemoveDuplicateItemsAsync(ObservableCollection<TailData> items, CancellationToken token)
     {
       LOG.Trace("Try to remove duplicate items");
 
@@ -370,7 +370,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       return await Task.Run(() => GetTailDataById(tailData, id), token).ConfigureAwait(false);
     }
 
-    private TailData GetTailDataById(IEnumerable<TailData> tailData, Guid id)
+    private static TailData GetTailDataById(IEnumerable<TailData> tailData, Guid id)
     {
       try
       {

@@ -62,7 +62,6 @@ namespace Org.Vs.TailForWin.Core.Data
       switch ( e.Action )
       {
       case NotifyCollectionChangedAction.Remove:
-
         foreach ( FilterData item in e.OldItems )
         {
           item.PropertyChanged -= OnFilterItemPropertyChanged;
@@ -71,7 +70,6 @@ namespace Org.Vs.TailForWin.Core.Data
         break;
 
       case NotifyCollectionChangedAction.Add:
-
         foreach ( FilterData item in e.NewItems )
         {
           item.PropertyChanged -= OnFilterItemPropertyChanged;
@@ -82,19 +80,15 @@ namespace Org.Vs.TailForWin.Core.Data
         break;
 
       case NotifyCollectionChangedAction.Replace:
-
         break;
 
       case NotifyCollectionChangedAction.Move:
-
         break;
 
       case NotifyCollectionChangedAction.Reset:
-
         break;
 
       default:
-
         throw new ArgumentOutOfRangeException();
       }
     }
@@ -198,6 +192,25 @@ namespace Org.Vs.TailForWin.Core.Data
 
         bool currentValue = _isWindowsEvent;
         ChangeState(new Command(() => _windowsEvent = value, () => _isWindowsEvent = currentValue, nameof(WindowsEvent), Notification));
+      }
+    }
+
+    private bool _isPinned;
+
+    /// <summary>
+    /// Is pinned
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public bool IsPinned
+    {
+      get => _isPinned;
+      set
+      {
+        if ( _isPinned == value )
+          return;
+
+        bool currentValue = _isPinned;
+        ChangeState(new Command(() => _isPinned = value, () => _isPinned = currentValue, nameof(IsPinned), Notification));
       }
     }
 
@@ -725,15 +738,15 @@ namespace Org.Vs.TailForWin.Core.Data
         switch ( columnName )
         {
         case nameof(Description):
-
           if ( string.IsNullOrWhiteSpace(Description) )
             result = Application.Current.TryFindResource("ErrorEnterDescription").ToString();
+
           break;
 
         case nameof(FileName):
-
           if ( string.IsNullOrWhiteSpace(FileName) && !IsWindowsEvent )
             result = Application.Current.TryFindResource("ErrorEnterFileName").ToString();
+
           break;
         }
 

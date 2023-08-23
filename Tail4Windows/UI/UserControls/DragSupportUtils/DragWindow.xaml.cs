@@ -17,6 +17,7 @@ using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Data.Messages.DragSupportTabControl;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
@@ -247,6 +248,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         tabItem.HeaderContent,
         tabItem.HeaderToolTip,
         tabItem.TabItemBusyIndicator,
+        tabItem.IsPinned,
         tabItem.TabItemBackgroundColorStringHex,
         (LogWindowControl) tabItem.Content);
 
@@ -371,7 +373,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         RemoveTabItem(item, false);
     }
 
-    private void TabControlOnAddTabItemEvent(object sender, RoutedEventArgs e) => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
+    private void TabControlOnAddTabItemEvent(object sender, RoutedEventArgs e)
+      => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed, false);
 
     #endregion
 
@@ -379,10 +382,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       string header,
       string toolTip,
       Visibility busyIndicator,
+      bool isPinned,
       string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor,
       ILogWindowControl content = null)
     {
-      var tabItem = UiHelper.CreateDragSupportTabItem(DragWindowGuid, header, toolTip, busyIndicator, content, backgroundColor);
+      var tabItem = UiHelper.CreateDragSupportTabItem(DragWindowGuid, header, toolTip, busyIndicator, isPinned, content, backgroundColor);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;
@@ -403,6 +407,12 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       // Commit changes
       content.CurrentTailData.CommitChanges();
+
+      // Set IsPinned state when new tabItem
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragSupportTabItemPinnedChangedMessage(
+        tabItem,
+        tabItem.DragWindowId,
+        tabItem.IsPinned));
     }
 
     private void TabItemCloseRightTabs(object sender, RoutedEventArgs e)
@@ -604,7 +614,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowExtendedToolbarMessage(control.WindowId));
     }
 
-    private void ExecuteOpenHelpCommand()
+    private static void ExecuteOpenHelpCommand()
     {
       var url = new Uri(EnvironmentContainer.ApplicationHelpUrl);
       EnvironmentContainer.Instance.ExecuteRequestNavigateCommand(url);
@@ -708,7 +718,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(control.SplitWindow.FindWhatResults, control.WindowId));
     }
 
-    private void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
+    private static void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
 
     private void ExecuteFindWhatCommand()
     {
@@ -727,7 +737,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenGoToLineDialogMessage(((ILogWindowControl) SelectedTabItem.Content).ParentWindowId));
     }
 
-    private void ExecuteAddNewTabItemCommand() => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
+    private void ExecuteAddNewTabItemCommand()
+      => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed, false);
 
     private void ExecuteCloseTabItemCommand()
     {
@@ -766,7 +777,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         SelectedItem = args.TailData.FileName,
         IsSmartWatchAutoRun = args.IsSmartWatch && args.TailData.AutoRun
       };
-      AddTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, content: content);
+      AddTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, args.TailData.IsPinned, content: content);
 
       using ( var execute = new ThrottledExecution() )
       {
@@ -781,7 +792,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
 
-      if ( SelectedTabItem == null || !(SelectedTabItem.Content is ILogWindowControl control) )
+      if ( !(SelectedTabItem?.Content is ILogWindowControl control) )
         return;
 
       EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(control.WindowId, true);

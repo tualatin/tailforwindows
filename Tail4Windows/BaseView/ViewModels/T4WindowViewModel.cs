@@ -40,6 +40,7 @@ using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Data.Messages.DragSupportTabControl;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.Data.Messages.QuickSearchbar;
@@ -238,7 +239,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       get => _dragWindowId;
       set
       {
-        if (_dragWindowId == value)
+        if ( _dragWindowId == value )
           return;
 
         _dragWindowId = value;
@@ -641,7 +642,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Creates a new TabItem window
     /// </summary>
-    public void ExecuteAddNewTabItemCommand() => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
+    public void ExecuteAddNewTabItemCommand()
+      => AddTabItem(
+        $"{Application.Current.TryFindResource("NoFile")}",
+        $"{Application.Current.TryFindResource("NoFile")}",
+        Visibility.Collapsed,
+        false);
 
     private static void ExecutePreviewKeyDownCommand(object parameter)
     {
@@ -1073,9 +1079,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region HelperFunctions
 
-    private void AddTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindowControl content = null, string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
+    private void AddTabItem(
+      string header,
+      string toolTip,
+      Visibility busyIndicator,
+      bool isPinned,
+      ILogWindowControl content = null,
+      string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
     {
-      var tabItem = UiHelper.CreateDragSupportTabItem(DragWindowId, header, toolTip, busyIndicator, content, backgroundColor);
+      var tabItem = UiHelper.CreateDragSupportTabItem(DragWindowId, header, toolTip, busyIndicator, isPinned, content, backgroundColor);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
@@ -1096,6 +1108,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       // Commit changes
       content.CurrentTailData.CommitChanges();
+
+      // Set IsPinned state when new tabItem
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragSupportTabItemPinnedChangedMessage(
+        tabItem,
+        tabItem.DragWindowId,
+        tabItem.IsPinned));
     }
 
     private static void OnChangeSelectedTabItem(ChangeSelectedTabItemMessage args)
@@ -1110,7 +1128,13 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     }
 
     private void OnAddTabItemFromMainWindow(AddTabItemMessage args) =>
-      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBusyIndicator, (ILogWindowControl) args.TabItem.Content, args.TabItem.TabItemBackgroundColorStringHex);
+      AddTabItem(
+        args.TabItem.HeaderContent,
+        args.TabItem.HeaderToolTip,
+        args.TabItem.TabItemBusyIndicator,
+        args.TabItem.IsPinned,
+        (ILogWindowControl) args.TabItem.Content,
+        args.TabItem.TabItemBackgroundColorStringHex);
 
     private void OnOpenFindWhatWindow(OpenFindWhatWindowMessage args)
     {

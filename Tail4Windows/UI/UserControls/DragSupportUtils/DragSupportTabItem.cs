@@ -25,7 +25,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private Polygon _tabItemBusyIndicator;
     private Ellipse _itemChangedIndicator;
     private readonly StringToWindowMediaBrushConverter _stringToWindowMediaBrushConverter;
-    private readonly Guid _dragWindowId;
+
+    /// <summary>
+    /// Drag Window Id
+    /// </summary>
+    public Guid DragWindowId
+    {
+      get;
+    }
 
     /// <summary>
     /// TabItem id
@@ -119,7 +126,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       nameof(IsPinned),
       typeof(bool),
       typeof(DragSupportTabItem),
-      new UIPropertyMetadata(false));
+      new UIPropertyMetadata(false, IsPinnedPropertyChanged));
+
+    private static void IsPinnedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(d is DragSupportTabItem tabItem) )
+        return;
+
+      tabItem.RaiseEvent(new RoutedEventArgs(IsPinnedChangedEvent, tabItem));
+    }
 
     /// <summary>
     /// Gets/sets IsPinned
@@ -128,6 +143,21 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       get => (bool) GetValue(IsPinnedProperty);
       set => SetValue(IsPinnedProperty, value);
+    }
+
+    /// <summary>
+    /// IsPinnedChanged event handler
+    /// </summary>
+    private static readonly RoutedEvent IsPinnedChangedEvent = EventManager.RegisterRoutedEvent(nameof(IsPinnedChanged), RoutingStrategy.Bubble,
+      typeof(RoutedEventHandler), typeof(DragSupportTabItem));
+
+    /// <summary>
+    /// IsPinnedChanged
+    /// </summary>
+    public event RoutedEventHandler IsPinnedChanged
+    {
+      add => AddHandler(IsPinnedChangedEvent, value);
+      remove => RemoveHandler(IsPinnedChangedEvent, value);
     }
 
     /// <summary>
@@ -328,7 +358,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       _stringToWindowMediaBrushConverter = new StringToWindowMediaBrushConverter();
 
       TabItemId = Guid.NewGuid();
-      _dragWindowId = dragWindowId;
+      DragWindowId = dragWindowId;
 
       var icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/transparent.png");
       ContextMenu = new ContextMenu();
@@ -465,7 +495,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragSupportTabItemPinnedChangedMessage(
         this,
-        _dragWindowId,
+        DragWindowId,
         IsPinned));
     }
 

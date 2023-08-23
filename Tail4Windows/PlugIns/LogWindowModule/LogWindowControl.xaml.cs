@@ -152,6 +152,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         _logWindowTabItem = value;
         _logWindowTabItem.TabHeaderBackgroundChanged -= TabItemTabHeaderBackgroundChanged;
         _logWindowTabItem.TabHeaderBackgroundChanged += TabItemTabHeaderBackgroundChanged;
+
+        _logWindowTabItem.IsPinnedChanged -= TabItemIsPinnedChanged;
+        _logWindowTabItem.IsPinnedChanged += TabItemIsPinnedChanged;
       }
     }
 
@@ -973,6 +976,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.HeaderContent = CurrentTailData.File;
       LogWindowTabItem.HeaderToolTip = CurrentTailData.FileName;
       LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
+      LogWindowTabItem.IsPinned = CurrentTailData.IsPinned;
       FileIsValid = true;
 
       ChangeTailData();
@@ -1032,6 +1036,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragSupportTabItemChangedMessage(this, LogWindowTabItem.TabItemBackgroundColor, ParentWindowId));
+    }
+
+    private void TabItemIsPinnedChanged(object sender, RoutedEventArgs e)
+    {
+      if ( !(sender is TabItem) )
+        return;
+
+      CurrentTailData.IsPinned = LogWindowTabItem.IsPinned;
     }
 
     private void SaveHistoryCompleted(object sender, PropertyChangedEventArgs e)
@@ -1209,6 +1221,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           tailData.File,
           tailData.FileName,
           Visibility.Collapsed,
+          tailData.IsPinned,
           content);
         DragWindow dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
 

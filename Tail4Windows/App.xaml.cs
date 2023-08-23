@@ -256,7 +256,8 @@ namespace Org.Vs.TailForWin
               _dragWindowId,
               $"{Current.TryFindResource("NoFile")}",
               $"{Current.TryFindResource("NoFile")}",
-              Visibility.Collapsed);
+              Visibility.Collapsed,
+              false);
 
             ((ILogWindowControl) tabItem.Content).SelectedItem = fileName;
             EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new AddTabItemMessage(this, tabItem));
