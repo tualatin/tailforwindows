@@ -71,6 +71,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
     }
 
     /// <summary>
+    /// Global to local filter command
+    /// </summary>
+    IAsyncCommand GlobalToLocalFilerCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Undo command
     /// </summary>
     ICommand UndoCommand

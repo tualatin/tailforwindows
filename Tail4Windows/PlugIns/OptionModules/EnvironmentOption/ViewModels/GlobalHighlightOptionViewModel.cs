@@ -13,7 +13,9 @@ using log4net;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
@@ -33,6 +35,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     private static readonly ILog LOG = LogManager.GetLogger(typeof(GlobalHighlightOptionViewModel));
 
     private readonly IGlobalFilterController _filterController;
+    private readonly IFileManagerController _fileManagerController;
     private CancellationTokenSource _cts;
     private FilterData _contextMenuFilterData;
 
@@ -42,12 +45,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     public GlobalHighlightOptionViewModel()
     {
       _filterController = new GlobalFilterController();
+      _fileManagerController = new FileManagerController();
 
       SetCancellationTokenSource();
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenGlobalHightlightFromTailDataMessage>(OnOpenFilterData);
       ((AsyncCommand<object>) SaveCommand).PropertyChanged += OnSavePropertyChanged;
       ((AsyncCommand<object>) DeleteHighlightColorCommand).PropertyChanged += OnDeletePropertyChanged;
+      ((AsyncCommand<object>) GlobalToLocalFilerCommand).PropertyChanged += OnDeletePropertyChanged;
     }
 
     /// <summary>
@@ -139,6 +144,15 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// </summary>
     public IAsyncCommand DeleteHighlightColorCommand => _deleteHighlightColorCommand ?? (_deleteHighlightColorCommand = AsyncCommand.Create(p => CanExecuteDeleteHighlightColorCommand(), ExecuteDeleteHighlightColorCommandAsync));
 
+    private IAsyncCommand _globalToLocalFilterCommand;
+
+    /// <summary>
+    /// Global to local filter command
+    /// </summary>
+    public IAsyncCommand GlobalToLocalFilerCommand => _globalToLocalFilterCommand ?? (_globalToLocalFilterCommand = AsyncCommand.Create(
+      p => CanExecuteDeleteHighlightColorCommand(),
+      ExecuteGlobalToLocalFilterCommandAsync));
+
     private ICommand _undoCommand;
 
     /// <summary>
@@ -215,6 +229,30 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
       if ( !success )
         InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerDeleteTailDataItemError").ToString());
+    }
+
+    private async Task ExecuteGlobalToLocalFilterCommandAsync()
+    {
+      if ( SelectedItem == null )
+        return;
+
+      MouseService.SetBusyState();
+
+      SetCancellationTokenSource();
+
+      var values = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+
+      if ( !values.Any() )
+        return;
+
+      foreach ( var tailData in values )
+      {
+        tailData.ListOfFilter.Add(SelectedItem);
+
+        await _fileManagerController.UpdateTailDataAsync(tailData, _cts.Token).ConfigureAwait(false);
+      }
+
+      await _filterController.DeleteGlobalFilterAsync(SelectedItem.Id).ConfigureAwait(false);
     }
 
     private bool CanExecuteUndo()

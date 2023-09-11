@@ -225,6 +225,7 @@
   <system:String x:Key="ExtrasPageTitle">Extras</system:String>
 
   <system:String x:Key="GlobalHighlightOptionPageTitle">Globale Hervorhebungen</system:String>
+  <system:String x:Key="GlobalHighlightOptionGlobalToLocal">Global zu Lokal Filter</system:String>
 
   <system:String x:Key="EnvironmentLanguageToolTip">Programmsprache setzen</system:String>
   <system:String x:Key="EnvironmentAlwaysOnTop">Immer im Vordergrund</system:String>

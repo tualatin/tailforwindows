@@ -266,6 +266,23 @@
         </Style>
       </extendedControls:VsDataGrid.RowStyle>
 
+      <extendedControls:VsDataGrid.ContextMenu>
+        <ContextMenu>
+          <MenuItem
+            Header="{DynamicResource GlobalHighlightOptionGlobalToLocal}"
+            Command="{Binding GlobalToLocalFilerCommand}"
+            >
+            <MenuItem.Icon>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/transparent.png"
+                />
+            </MenuItem.Icon>
+          </MenuItem>
+        </ContextMenu>
+      </extendedControls:VsDataGrid.ContextMenu>
+
       <extendedControls:VsDataGrid.Columns>
         <DataGridTextColumn
           MinWidth="50"
