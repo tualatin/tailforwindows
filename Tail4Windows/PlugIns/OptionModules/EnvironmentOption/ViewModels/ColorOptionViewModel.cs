@@ -83,6 +83,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     public void UnloadOptionViewModel()
     {
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ResetDataMessage>(ResetData);
+      ((AsyncCommand<object>)SetDefaultColorsCommand).PropertyChanged -= OnSetDefaultColorsPropertyChanged;
       LogViewerColorData.CollectionChanged -= ColorDataCollectionChanged;
       StatusbarColorData.CollectionChanged -= ColorDataCollectionChanged;
     }

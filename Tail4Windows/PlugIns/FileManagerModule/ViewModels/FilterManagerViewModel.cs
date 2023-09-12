@@ -371,7 +371,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       MouseService.SetBusyState();
       SetCancellationTokenSource();
 
-      var globalFilters = await _globalFilterController.ReadGlobalFiltersAsync(_cts.Token);
+      var globalFilters = await _globalFilterController.ReadGlobalFiltersAsync(_cts.Token).ConfigureAwait(false);
       var exists = globalFilters.SingleOrDefault(p => p.Id == SelectedItem.Id);
 
       if ( exists != null )
@@ -381,7 +381,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
 
       globalFilters.Add(SelectedItem);
-      var success = await _globalFilterController.UpdateGlobalFilterAsync(globalFilters);
+      var success = await _globalFilterController.UpdateGlobalFilterAsync(globalFilters).ConfigureAwait(false);
 
       if ( !success )
       {

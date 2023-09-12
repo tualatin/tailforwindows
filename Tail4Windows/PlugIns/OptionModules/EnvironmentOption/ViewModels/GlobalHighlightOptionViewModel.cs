@@ -58,7 +58,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// <summary>
     /// Unloads view model events
     /// </summary>
-    public void UnloadOptionViewModel() => EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGlobalHightlightFromTailDataMessage>(OnOpenFilterData);
+    public void UnloadOptionViewModel()
+    {
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGlobalHightlightFromTailDataMessage>(OnOpenFilterData);
+      ((AsyncCommand<object>) SaveCommand).PropertyChanged -= OnSavePropertyChanged;
+      ((AsyncCommand<object>) DeleteHighlightColorCommand).PropertyChanged -= OnDeletePropertyChanged;
+      ((AsyncCommand<object>)GlobalToLocalFilerCommand).PropertyChanged -= OnDeletePropertyChanged;
+    }
 
     /// <summary>
     /// Current selected item

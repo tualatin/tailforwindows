@@ -104,17 +104,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       switch ( SettingsHelperController.CurrentSettings.Language )
       {
       case EUiLanguage.English:
-
         LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\en-EN.xaml");
         break;
 
       case EUiLanguage.German:
-
         LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\de-DE.xaml");
         break;
 
       default:
-
         LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\en-EN.xaml");
         break;
       }
