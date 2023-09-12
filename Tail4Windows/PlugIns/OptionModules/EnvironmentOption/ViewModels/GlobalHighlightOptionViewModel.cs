@@ -63,7 +63,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGlobalHightlightFromTailDataMessage>(OnOpenFilterData);
       ((AsyncCommand<object>) SaveCommand).PropertyChanged -= OnSavePropertyChanged;
       ((AsyncCommand<object>) DeleteHighlightColorCommand).PropertyChanged -= OnDeletePropertyChanged;
-      ((AsyncCommand<object>)GlobalToLocalFilerCommand).PropertyChanged -= OnDeletePropertyChanged;
+      ((AsyncCommand<object>) GlobalToLocalFilerCommand).PropertyChanged -= OnDeletePropertyChanged;
     }
 
     /// <summary>
@@ -148,7 +148,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// <summary>
     /// Delete highlight color from source
     /// </summary>
-    public IAsyncCommand DeleteHighlightColorCommand => _deleteHighlightColorCommand ?? (_deleteHighlightColorCommand = AsyncCommand.Create(p => CanExecuteDeleteHighlightColorCommand(), ExecuteDeleteHighlightColorCommandAsync));
+    public IAsyncCommand DeleteHighlightColorCommand => _deleteHighlightColorCommand ?? (_deleteHighlightColorCommand = AsyncCommand.Create(
+      p => CanExecuteDeleteHighlightColorCommand(),
+      ExecuteDeleteHighlightColorCommandAsync));
 
     private IAsyncCommand _globalToLocalFilterCommand;
 
@@ -304,9 +306,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       var success = await _filterController.UpdateGlobalFilterAsync(collection).ConfigureAwait(false);
 
       if ( !success )
-      {
         InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
-      }
 
       CommitChanges();
     }
@@ -359,9 +359,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         return;
 
       if ( GlobalHighlightCollection.Contains(SelectedItem) )
-      {
         GlobalHighlightCollection.Remove(SelectedItem);
-      }
 
       OnPropertyChanged(nameof(GlobalHighlightCollection));
       OnPropertyChanged(nameof(FilterManagerView));
