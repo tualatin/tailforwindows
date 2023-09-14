@@ -6,15 +6,35 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="450"
   d:DesignWidth="800"
+  x:Name="GlobalHighlightUserControl"
   >
   <UserControl.DataContext>
     <viewModels:GlobalHighlightOptionViewModel />
   </UserControl.DataContext>
+
+  <UserControl.Resources>
+    <Storyboard x:Key="ExtendedSettingsShowAnimation">
+      <DoubleAnimation
+        Duration="0:0:0.2"
+        Storyboard.TargetProperty="MinHeight"
+        To="50"
+        />
+    </Storyboard>
+
+    <Storyboard x:Key="ExtendedSettingsHideAnimation">
+      <DoubleAnimation
+        Duration="0:0:0.2"
+        Storyboard.TargetProperty="MinHeight"
+        To="0"
+        />
+    </Storyboard>
+  </UserControl.Resources>
 
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Loaded">
@@ -30,217 +50,287 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />
+      <RowDefinition Height="0">
+        <RowDefinition.Style>
+          <Style>
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsChecked, ElementName=ExtendedSettingsToggleButton}" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.EnterActions>
+                  <BeginStoryboard Storyboard="{StaticResource ExtendedSettingsShowAnimation}" />
+                </MultiDataTrigger.EnterActions>
+                <MultiDataTrigger.ExitActions>
+                  <BeginStoryboard Storyboard="{StaticResource ExtendedSettingsHideAnimation}" />
+                </MultiDataTrigger.ExitActions>
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </RowDefinition.Style>
+      </RowDefinition>
     </Grid.RowDefinitions>
 
     <Border Grid.Row="0">
       <Grid Margin="0 0 0 5">
-        <StackPanel Orientation="Horizontal">
-          <Button
-            Width="22"
-            Height="22"
-            Margin="0 0 2 0"
-            Command="{Binding SaveCommand}"
-            TabIndex="2"
-            >
-            <StackPanel Margin="3">
-              <Image
-                RenderOptions.BitmapScalingMode="HighQuality"
-                RenderOptions.EdgeMode="Aliased"
-                Source="/T4W;component/Resources/save.ico"
-                >
-                <Image.Style>
-                  <Style TargetType="{x:Type Image}">
-                    <Style.Triggers>
-                      <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Opacity" Value="0.5" />
-                      </Trigger>
-                    </Style.Triggers>
-                  </Style>
-                </Image.Style>
-              </Image>
-            </StackPanel>
-            <Button.ToolTip>
-              <StackPanel>
-                <TextBlock
-                  Margin="0 0 0 5"
-                  Text="{DynamicResource FileManagerSave}"
-                  FontSize="12"
-                  FontWeight="Bold"
-                  />
-                <TextBlock Text="{DynamicResource FileManagerSaveToolTip}" />
-                <Border
-                  Margin="0 8"
-                  BorderBrush="Silver"
-                  BorderThickness="0 1 0 0"
-                  />
-                <WrapPanel>
-                  <Image
-                    Width="16"
-                    Height="16"
-                    Margin="0 0 5 0"
-                    RenderOptions.BitmapScalingMode="HighQuality"
-                    RenderOptions.EdgeMode="Aliased"
-                    Source="/T4W;component/Resources/Search.ico"
-                    />
-                  <TextBlock
-                    Text="{DynamicResource GeneralToolTipHint}"
-                    FontStyle="Italic"
-                    />
-                </WrapPanel>
-              </StackPanel>
-            </Button.ToolTip>
-          </Button>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-          <Button
-            Width="22"
-            Height="22"
-            Margin="0 0 2 0"
-            Command="{Binding AddHighlightColorCommand}"
-            TabIndex="3"
-            >
-            <Path
-              Margin="3"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center"
-              Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
-              Fill="RoyalBlue"
-              Stretch="Uniform"
+        <Button
+          Width="22"
+          Height="22"
+          Margin="0 0 2 0"
+          Command="{Binding SaveCommand}"
+          TabIndex="2"
+          >
+          <StackPanel Margin="3">
+            <Image
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/save.ico"
               >
-              <Path.Effect>
-                <DropShadowEffect
-                  Opacity="0.6"
-                  ShadowDepth="1"
+              <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                  <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                      <Setter Property="Opacity" Value="0.5" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Image.Style>
+            </Image>
+          </StackPanel>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FileManagerSave}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerSaveToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
                   />
-              </Path.Effect>
-            </Path>
-            <Button.ToolTip>
-              <StackPanel>
                 <TextBlock
-                  Margin="0 0 0 5"
-                  Text="{DynamicResource FileManagerAdd}"
-                  FontSize="12"
-                  FontWeight="Bold"
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
                   />
-                <TextBlock Text="{DynamicResource FileManagerAddToolTip}" />
-                <Border
-                  Margin="0 8"
-                  BorderBrush="Silver"
-                  BorderThickness="0 1 0 0"
-                  />
-                <WrapPanel>
-                  <Image
-                    Width="16"
-                    Height="16"
-                    Margin="0 0 5 0"
-                    RenderOptions.BitmapScalingMode="HighQuality"
-                    RenderOptions.EdgeMode="Aliased"
-                    Source="/T4W;component/Resources/Search.ico"
-                    />
-                  <TextBlock
-                    Text="{DynamicResource GeneralToolTipHint}"
-                    FontStyle="Italic"
-                    />
-                </WrapPanel>
-              </StackPanel>
-            </Button.ToolTip>
-          </Button>
-
-          <Button
-            Width="22"
-            Height="22"
-            Margin="0 0 2 0"
-            Command="{Binding UndoCommand}"
-            TabIndex="4"
-            >
-            <StackPanel Margin="3">
-              <Image
-                RenderOptions.BitmapScalingMode="HighQuality"
-                RenderOptions.EdgeMode="Aliased"
-                Source="/T4W;component/Resources/Cancel.ico"
-                >
-                <Image.Style>
-                  <Style TargetType="{x:Type Image}">
-                    <Style.Triggers>
-                      <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Opacity" Value="0.5" />
-                      </Trigger>
-                    </Style.Triggers>
-                  </Style>
-                </Image.Style>
-              </Image>
+              </WrapPanel>
             </StackPanel>
-            <Button.ToolTip>
-              <StackPanel>
-                <TextBlock
-                  Margin="0 0 0 5"
-                  Text="{DynamicResource FileManagerUndo}"
-                  FontSize="12"
-                  FontWeight="Bold"
-                  />
-                <TextBlock Text="{DynamicResource FileManagerUndoToolTip}" />
-                <Border
-                  Margin="0 8"
-                  BorderBrush="Silver"
-                  BorderThickness="0 1 0 0"
-                  />
-                <WrapPanel>
-                  <Image
-                    Width="16"
-                    Height="16"
-                    Margin="0 0 5 0"
-                    RenderOptions.BitmapScalingMode="HighQuality"
-                    RenderOptions.EdgeMode="Aliased"
-                    Source="/T4W;component/Resources/Search.ico"
-                    />
-                  <TextBlock
-                    Text="{DynamicResource GeneralToolTipHint}"
-                    FontStyle="Italic"
-                    />
-                </WrapPanel>
-              </StackPanel>
-            </Button.ToolTip>
-          </Button>
+          </Button.ToolTip>
+        </Button>
 
-          <Button
-            Width="22"
-            Height="22"
-            Margin="0 0 2 0"
-            Command="{Binding DeleteHighlightColorCommand}"
-            Style="{StaticResource RemoveItemButtonStyle}"
-            TabIndex="5"
+        <Button
+          Grid.Column="1"
+          Width="22"
+          Height="22"
+          Margin="0 0 2 0"
+          Command="{Binding AddHighlightColorCommand}"
+          TabIndex="3"
+          >
+          <Path
+            Margin="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
+            Fill="RoyalBlue"
+            Stretch="Uniform"
             >
-            <Button.ToolTip>
-              <StackPanel>
+            <Path.Effect>
+              <DropShadowEffect
+                Opacity="0.6"
+                ShadowDepth="1"
+                />
+            </Path.Effect>
+          </Path>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FileManagerAdd}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerAddToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
                 <TextBlock
-                  Margin="0 0 0 5"
-                  Text="{DynamicResource FileManagerRemove}"
-                  FontSize="12"
-                  FontWeight="Bold"
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
                   />
-                <TextBlock Text="{DynamicResource FileManagerRemoveToolTip}" />
-                <Border
-                  Margin="0 8"
-                  BorderBrush="Silver"
-                  BorderThickness="0 1 0 0"
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
+        </Button>
+
+        <Button
+          Grid.Column="2"
+          Width="22"
+          Height="22"
+          Margin="0 0 2 0"
+          Command="{Binding UndoCommand}"
+          TabIndex="4"
+          >
+          <StackPanel Margin="3">
+            <Image
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Cancel.ico"
+              >
+              <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                  <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                      <Setter Property="Opacity" Value="0.5" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Image.Style>
+            </Image>
+          </StackPanel>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FileManagerUndo}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerUndoToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
                   />
-                <WrapPanel>
-                  <Image
-                    Width="16"
-                    Height="16"
-                    Margin="0 0 5 0"
-                    RenderOptions.BitmapScalingMode="HighQuality"
-                    RenderOptions.EdgeMode="Aliased"
-                    Source="/T4W;component/Resources/Search.ico"
-                    />
-                  <TextBlock
-                    Text="{DynamicResource GeneralToolTipHint}"
-                    FontStyle="Italic"
-                    />
-                </WrapPanel>
-              </StackPanel>
-            </Button.ToolTip>
-          </Button>
-        </StackPanel>
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
+        </Button>
+
+        <Button
+          Grid.Column="3"
+          Width="22"
+          Height="22"
+          Margin="0 0 2 0"
+          Command="{Binding DeleteHighlightColorCommand}"
+          Style="{StaticResource RemoveItemButtonStyle}"
+          TabIndex="5"
+          >
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FileManagerRemove}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerRemoveToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
+        </Button>
+
+        <ToggleButton
+          x:Name="ExtendedSettingsToggleButton"
+          Grid.Column="5"
+          Height="14"
+          Margin="0 5 15 5"
+          HorizontalAlignment="Right"
+          IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowExtendedSettings, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+          TabIndex="2"
+          >
+          <ToggleButton.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource ExtendedTailSettingsLabel}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerExtendedSettingsToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </ToggleButton.ToolTip>
+        </ToggleButton>
       </Grid>
     </Border>
 
@@ -446,5 +536,258 @@
         </DataGridTemplateColumn>
       </extendedControls:VsDataGrid.Columns>
     </extendedControls:VsDataGrid>
+
+    <Grid Grid.Row="2">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+          Grid.Row="0"
+          Grid.Column="0"
+          Grid.ColumnSpan="2"
+          Orientation="Horizontal"
+          >
+          <Button
+            Width="18"
+            Height="18"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Command="{Binding FontCommand}"
+            CommandParameter="{Binding ElementName=GlobalHighlightUserControl}"
+            TabIndex="7"
+            >
+            <StackPanel>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Font.ico"
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FilterManagerFont}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FilterManagerFontToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Label
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{Binding Path=SelectedItem.FontType, ElementName=GlobalHighlightDataGrid, Mode=TwoWay, Converter={StaticResource FontToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
+            FontFamily="{Binding ElementName=GlobalHighlightDataGrid, Path=SelectedItem.FontType.FontFamily}"
+            FontStyle="{Binding ElementName=GlobalHighlightDataGrid, Path=SelectedItem.FontType.FontStyle}"
+            FontWeight="{Binding ElementName=GlobalHighlightDataGrid, Path=SelectedItem.FontType.FontWeight}"
+            />
+        </StackPanel>
+
+        <CheckBox
+          Grid.Row="1"
+          Grid.Column="0"
+          Height="22"
+          Margin="2 0 0 0"
+          Content="{DynamicResource FilterManagerMatchCase}"
+          IsChecked="{Binding ElementName=GlobalHighlightDataGrid, Path=SelectedItem.FindSettingsData.CaseSensitive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="8"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FilterManagerMatchCase}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FilterManagerMatchCaseToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <CheckBox
+          Grid.Row="1"
+          Grid.Column="1"
+          Height="22"
+          Content="{DynamicResource FilterManagerFindWholeWord}"
+          IsChecked="{Binding ElementName=GlobalHighlightDataGrid, Path=SelectedItem.FindSettingsData.WholeWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="9"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FilterManagerFindWholeWord}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FilterManagerFindWholeWordToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <CheckBox
+          Grid.Row="1"
+          Grid.Column="2"
+          Height="22"
+          Margin="2 0 0 0"
+          Content="{DynamicResource FilterManagerWildCard}"
+          IsChecked="{Binding ElementName=GlobalHighlightDataGrid, Path=SelectedItem.FindSettingsData.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="10"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FilterManagerWildCard}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FilterManagerWildCardToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <CheckBox
+          Grid.Row="1"
+          Grid.Column="3"
+          Height="22"
+          Content="{DynamicResource FileManagerDataGridIsRegex}"
+          IsChecked="{Binding ElementName=GlobalHighlightDataGrid, Path=SelectedItem.FindSettingsData.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="11"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FileManagerDataGridIsRegex}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerDataGridIsRegexToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+      </Grid>
+    </Grid>
   </Grid>
 </UserControl>

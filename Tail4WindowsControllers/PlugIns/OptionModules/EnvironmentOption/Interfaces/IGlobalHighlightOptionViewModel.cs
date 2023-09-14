@@ -85,5 +85,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
     {
       get;
     }
+
+    /// <summary>
+    /// Font command
+    /// </summary>
+    ICommand FontCommand
+    {
+      get;
+    }
   }
 }

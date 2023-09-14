@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using log4net;
@@ -23,6 +24,7 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.PlugIns.FontChooserModule;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
@@ -168,6 +170,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// </summary>
     public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new RelayCommand(p => CanExecuteUndo(), p => ExecuteUndoCommand()));
 
+    private ICommand _fontCommand;
+
+    /// <summary>
+    /// Font command
+    /// </summary>
+    public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFontCommand((ContentControl) p)));
+
     private async Task ExecuteLoadedCommandAsync()
     {
       SetCancellationTokenSource();
@@ -309,6 +318,22 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
 
       CommitChanges();
+    }
+
+    private void ExecuteFontCommand(DependencyObject userControl)
+    {
+      if ( SelectedItem == null )
+        return;
+
+      var fontManager = new FontChooseDialog
+      {
+        Owner = Window.GetWindow(userControl),
+        SelectedFont = new FontInfo(SelectedItem.FontType.FontFamily, SelectedItem.FontType.FontSize, SelectedItem.FontType.FontStyle,
+          SelectedItem.FontType.FontWeight, SelectedItem.FontType.FontStretch)
+      };
+
+      if ( fontManager.ShowDialog() == true )
+        SelectedItem.FontType = fontManager.SelectedFont.FontType;
     }
 
     private void CommitChanges()
