@@ -20,8 +20,8 @@
     <Product>T4WUI.Plugins</Product>
     <Description>Professional log reader for Windows® UI Plugins</Description>
     <Copyright>Copyright ©  2019 - 2023 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.305</AssemblyVersion>
-    <FileVersion>1.0.305</FileVersion>
+    <AssemblyVersion>1.0.309</AssemblyVersion>
+    <FileVersion>1.0.309</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>

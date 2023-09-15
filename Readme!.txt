@@ -8,13 +8,16 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
-v.2.4.xxxx.x
+v.2.4.8658.x
+* new in global highlight you can set the font style now
+* new you can pin / unpin tabs now
 * new Close multiple tabs context menu -> Close left tabs, Close right tabs, Close other tabs
 * new commandline parameter parser can process multiple args, example: T4W c:\temp\abc.log d:\temp\xyz.log c:\temp\xxx.log
 * bug fix build date
 * bug fix commandline parameter parser
 * bug fix InvalidOperationException when highlight text in logwindow
 * bug fix reset global colors -> mousehover color was not set correctly
+* lot of bug fixes
 
 v.2.3.8382.x
 * new Color design of TabHeaders
