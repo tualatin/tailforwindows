@@ -90,7 +90,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
       Regex regex = new Regex(@"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)");
 
       if ( !regex.IsMatch(url) )
+      {
+        LOG.Error("The URL is not in the format.");
         throw new NotSupportedException(nameof(url));
+      }
     }
   }
 }
