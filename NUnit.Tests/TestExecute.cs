@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Utils;
 
 namespace Org.Vs.NUnit.Tests
@@ -23,7 +24,7 @@ namespace Org.Vs.NUnit.Tests
         Console.SetOut(sw);
         Execute.InvokeOnUiThread(() => Console.Write(message));
 
-        Assert.AreEqual(message, sw.ToString());
+        ClassicAssert.AreEqual(message, sw.ToString());
       }
     }
   }

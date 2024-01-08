@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Collections;
 
 namespace Org.Vs.NUnit.Tests
@@ -13,11 +14,11 @@ namespace Org.Vs.NUnit.Tests
     public void TestAddToCollection()
     {
       _asyncObservableCollection = new AsyncObservableCollection<int>();
-      Assert.IsNotNull(_asyncObservableCollection);
+      ClassicAssert.IsNotNull(_asyncObservableCollection);
 
       _asyncObservableCollection.Add(0);
-      Assert.AreEqual(1, _asyncObservableCollection.Count);
-      Assert.AreEqual(0, _asyncObservableCollection.First());
+      ClassicAssert.AreEqual(1, _asyncObservableCollection.Count);
+      ClassicAssert.AreEqual(0, _asyncObservableCollection.First());
     }
 
     [Test]
@@ -25,21 +26,21 @@ namespace Org.Vs.NUnit.Tests
     {
       GenerateList();
       Assert.DoesNotThrow(() => _asyncObservableCollection.Clear());
-      Assert.AreEqual(0, _asyncObservableCollection.Count);
+      ClassicAssert.AreEqual(0, _asyncObservableCollection.Count);
     }
 
     [Test]
     public void TestContainsCollection()
     {
       GenerateList();
-      Assert.IsTrue(_asyncObservableCollection.Contains(4));
+      ClassicAssert.IsTrue(_asyncObservableCollection.Contains(4));
     }
 
     [Test]
     public void TestIndexOfCollection()
     {
       GenerateList();
-      Assert.AreEqual(2, _asyncObservableCollection.IndexOf(2));
+      ClassicAssert.AreEqual(2, _asyncObservableCollection.IndexOf(2));
     }
 
     private void GenerateList()
@@ -54,7 +55,7 @@ namespace Org.Vs.NUnit.Tests
         5,
         6
       };
-      Assert.AreEqual(7, _asyncObservableCollection.Count);
+      ClassicAssert.AreEqual(7, _asyncObservableCollection.Count);
     }
   }
 }

@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -14,11 +15,11 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public void TestWeakEventObservableCollection()
     {
-      ObservableCollection<string> testColleciton = new ObservableCollection<string>();
+      ObservableCollection<string> testCollection = new ObservableCollection<string>();
       var testChangedListener = new WeakEventListener<NotifyCollectionChangedEventArgs>(HandleChanging);
-      CollectionChangedEventManager.AddListener(testColleciton, testChangedListener);
+      CollectionChangedEventManager.AddListener(testCollection, testChangedListener);
 
-      testColleciton.Add("Test");
+      testCollection.Add("Test");
     }
 
     [Test]
@@ -34,17 +35,17 @@ namespace Org.Vs.NUnit.Tests
 
     private void HandleChanging(object sender, EventArgs e)
     {
-      Assert.IsInstanceOf<ObservableCollection<string>>(sender);
-      Assert.IsInstanceOf<NotifyCollectionChangedEventArgs>(e);
+      ClassicAssert.IsInstanceOf<ObservableCollection<string>>(sender);
+      ClassicAssert.IsInstanceOf<NotifyCollectionChangedEventArgs>(e);
 
-      Assert.AreEqual(1, ((ObservableCollection<string>) sender).Count);
+      ClassicAssert.AreEqual(1, ((ObservableCollection<string>) sender).Count);
     }
 
     private void HandlePropertyChanging(object sender, PropertyChangedEventArgs e)
     {
-      Assert.IsInstanceOf<MyTestClass>(sender);
-      Assert.AreEqual("IsFocused", e.PropertyName);
-      Assert.IsTrue(((MyTestClass) sender).IsFocused);
+      ClassicAssert.IsInstanceOf<MyTestClass>(sender);
+      ClassicAssert.AreEqual("IsFocused", e.PropertyName);
+      ClassicAssert.IsTrue(((MyTestClass) sender).IsFocused);
     }
 
     private class MyTestClass : NotifyMaster
@@ -57,7 +58,7 @@ namespace Org.Vs.NUnit.Tests
         set
         {
           _isFocused = value;
-          OnPropertyChanged(nameof(IsFocused));
+          OnPropertyChanged();
         }
       }
     }

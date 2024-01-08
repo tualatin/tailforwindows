@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.BaseView.ViewModels;
 
 namespace Org.Vs.NUnit.Tests.Options
@@ -42,11 +43,11 @@ namespace Org.Vs.NUnit.Tests.Options
         new TreeNodeOptionViewModel(new AboutUpdate(), null)
       }, null);
 
-      Assert.AreEqual(3, optionPage1.Children.Count());
-      Assert.AreEqual(2, optionPage2.Children.Count());
-      Assert.AreEqual(2, optionPage3.Children.Count());
+      ClassicAssert.AreEqual(3, optionPage1.Children.Count());
+      ClassicAssert.AreEqual(2, optionPage2.Children.Count());
+      ClassicAssert.AreEqual(2, optionPage3.Children.Count());
 
-      Assert.AreEqual("Reset current settings", optionPage1.Children.Last().Name);
+      ClassicAssert.AreEqual("Reset current settings", optionPage1.Children.Last().Name);
 
       var root = new ObservableCollection<TreeNodeOptionViewModel>
       {
@@ -55,9 +56,9 @@ namespace Org.Vs.NUnit.Tests.Options
         optionPage3
       };
 
-      Assert.AreEqual(3, root.Count);
-      Assert.IsTrue(optionPage3.Children.SingleOrDefault(p => p.Name.Equals("System information"))?.IsLeaf);
-      Assert.IsFalse(optionPage1.IsLeaf);
+      ClassicAssert.AreEqual(3, root.Count);
+      ClassicAssert.IsTrue(optionPage3.Children.SingleOrDefault(p => p.Name.Equals("System information"))?.IsLeaf);
+      ClassicAssert.IsFalse(optionPage1.IsLeaf);
     }
   }
 }

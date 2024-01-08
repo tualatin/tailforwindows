@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.DbScheme;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
@@ -21,26 +22,26 @@ namespace Org.Vs.NUnit.Tests
       GenerateList();
 
       Assert.DoesNotThrow(() => _statisticAnalysisCollection.Clear());
-      Assert.AreEqual(0, _statisticAnalysisCollection.Count);
+      ClassicAssert.AreEqual(0, _statisticAnalysisCollection.Count);
     }
 
     [Test]
     public void TestCurrentInCollection()
     {
       GenerateList();
-      Assert.IsTrue(_statisticAnalysisCollection.MoveNext());
+      ClassicAssert.IsTrue(_statisticAnalysisCollection.MoveNext());
 
       var current = _statisticAnalysisCollection.Current;
-      Assert.IsNotNull(current);
-      Assert.IsInstanceOf<StatisticAnalysisData>(current);
-      Assert.AreEqual(0, ((StatisticAnalysisData) current).SessionEntity.SessionId);
+      ClassicAssert.IsNotNull(current);
+      ClassicAssert.IsInstanceOf<StatisticAnalysisData>(current);
+      ClassicAssert.AreEqual(0, ((StatisticAnalysisData) current).SessionEntity.SessionId);
 
-      Assert.IsTrue(_statisticAnalysisCollection.MoveNext());
+      ClassicAssert.IsTrue(_statisticAnalysisCollection.MoveNext());
 
       current = _statisticAnalysisCollection.Current;
-      Assert.IsNotNull(current);
-      Assert.IsInstanceOf<StatisticAnalysisData>(current);
-      Assert.AreEqual(1, ((StatisticAnalysisData) current).SessionEntity.SessionId);
+      ClassicAssert.IsNotNull(current);
+      ClassicAssert.IsInstanceOf<StatisticAnalysisData>(current);
+      ClassicAssert.AreEqual(1, ((StatisticAnalysisData) current).SessionEntity.SessionId);
     }
 
     private void GenerateList()
@@ -117,7 +118,7 @@ namespace Org.Vs.NUnit.Tests
 
       _index++;
 
-      Assert.AreEqual(_index, _statisticAnalysisCollection.Count);
+      ClassicAssert.AreEqual(_index, _statisticAnalysisCollection.Count);
     }
   }
 }

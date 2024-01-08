@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
 
@@ -15,7 +16,7 @@ namespace Org.Vs.NUnit.Tests
       var color = System.Drawing.Color.FromArgb(background.Color.A, background.Color.R, background.Color.G, background.Color.B);
       string hexString = color.ToHexString();
 
-      Assert.AreEqual(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor, hexString);
+      ClassicAssert.AreEqual(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor, hexString);
     }
   }
 }

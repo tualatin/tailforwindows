@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -46,9 +47,9 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       InitMyTest();
 
       var result = await _historyController.ConvertXmlToJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(result);
-      Assert.IsFalse(File.Exists(_path));
-      Assert.IsTrue(File.Exists(_pathAsJson));
+      ClassicAssert.IsTrue(result);
+      ClassicAssert.IsFalse(File.Exists(_path));
+      ClassicAssert.IsTrue(File.Exists(_pathAsJson));
     }
 
     [Test]
@@ -58,9 +59,9 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       CopyTempFile();
 
       var result = await _historyController.ReadHistoryAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Wrap);
-      Assert.IsTrue(result.FindCollection.Count > 1);
+      ClassicAssert.NotNull(result);
+      ClassicAssert.IsTrue(result.Wrap);
+      ClassicAssert.IsTrue(result.FindCollection.Count > 1);
     }
 
     [Test]
@@ -75,8 +76,8 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       {
         var result = _historyController.UpdateHistoryAsync(p.Result, searchText, _cts.Token).Result;
 
-        Assert.IsTrue(result);
-        Assert.IsTrue(p.Result.FindCollection.Contains(searchText));
+        ClassicAssert.IsTrue(result);
+        ClassicAssert.IsTrue(p.Result.FindCollection.Contains(searchText));
 
       }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
     }
@@ -91,8 +92,8 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       {
         var result = _historyController.DeleteHistoryAsync(p.Result, _cts.Token).Result;
 
-        Assert.IsTrue(result);
-        Assert.IsEmpty(p.Result.FindCollection);
+        ClassicAssert.IsTrue(result);
+        ClassicAssert.IsEmpty(p.Result.FindCollection);
       }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
     }
 

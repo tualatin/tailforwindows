@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
@@ -53,11 +54,11 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       };
 
       _globalFilters.Add(filter);
-      Assert.IsTrue(_globalFilters.Count == 1);
+      ClassicAssert.IsTrue(_globalFilters.Count == 1);
       Assert.ThrowsAsync<ArgumentException>(() => _globalFilterController.UpdateGlobalFilterAsync(null));
       Assert.DoesNotThrowAsync(() => _globalFilterController.UpdateGlobalFilterAsync(_globalFilters));
-      Assert.IsTrue(File.Exists(_pathAsJson));
-      Assert.IsTrue(_globalFilters.All(p => p.IsGlobal));
+      ClassicAssert.IsTrue(File.Exists(_pathAsJson));
+      ClassicAssert.IsTrue(_globalFilters.All(p => p.IsGlobal));
     }
 
     [Test]
@@ -71,11 +72,11 @@ namespace Org.Vs.NUnit.Tests.JsonTests
 
       var result = await _globalFilterController.DeleteGlobalFilterAsync(Guid.Parse("2612ee2f-c952-48d9-9d1c-840ef3f97502")).ConfigureAwait(false);
 
-      Assert.IsTrue(result);
+      ClassicAssert.IsTrue(result);
 
       var filters = await _globalFilterController.ReadGlobalFiltersAsync(_cts.Token).ConfigureAwait(false);
 
-      Assert.IsTrue(filters.Count == 2);
+      ClassicAssert.IsTrue(filters.Count == 2);
     }
 
     [Test]
@@ -88,10 +89,10 @@ namespace Org.Vs.NUnit.Tests.JsonTests
 
       var filters = await _globalFilterController.ReadGlobalFiltersAsync(_cts.Token).ConfigureAwait(false);
 
-      Assert.IsInstanceOf<ObservableCollection<FilterData>>(filters);
-      Assert.IsTrue(filters.Count > 0);
-      Assert.IsTrue(filters.Count == 3);
-      Assert.IsTrue(filters.All(p => p.IsGlobal));
+      ClassicAssert.IsInstanceOf<ObservableCollection<FilterData>>(filters);
+      ClassicAssert.IsTrue(filters.Count > 0);
+      ClassicAssert.IsTrue(filters.Count == 3);
+      ClassicAssert.IsTrue(filters.All(p => p.IsGlobal));
     }
 
     private void InitMyTest()

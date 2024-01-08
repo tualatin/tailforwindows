@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -25,8 +26,8 @@ namespace Org.Vs.NUnit.Tests
     {
       var result = await _windowEventReader.GetCategoriesAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
 
-      Assert.IsNotNull(result);
-      Assert.AreNotEqual(0, result.Count);
+      ClassicAssert.IsNotNull(result);
+      ClassicAssert.AreNotEqual(0, result.Count);
     }
 
     [Test]

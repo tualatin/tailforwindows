@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
@@ -31,8 +32,8 @@ namespace Org.Vs.NUnit.Tests
       Assert.That(() => _webController.GetStringByUrlAsync("htpewh://blabla.info"), Throws.InstanceOf<NotSupportedException>());
 
       var webRequest = await _webController.GetStringByUrlAsync(CoreEnvironment.ApplicationUpdateWebUrl).ConfigureAwait(false);
-      Assert.IsNotNull(webRequest);
-      Assert.IsTrue(webRequest.Contains("TfW_x64.zip"));
+      ClassicAssert.IsNotNull(webRequest);
+      ClassicAssert.IsTrue(webRequest.Contains("TfW_x64.zip"));
     }
   }
 }

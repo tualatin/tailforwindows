@@ -1,4 +1,5 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.NUnit.Tests.Enums;
 using Org.Vs.TailForWin.Core.Extensions;
 
@@ -15,15 +16,15 @@ namespace Org.Vs.NUnit.Tests
 
       var myValue = description.GetEnumDescription();
 
-      Assert.IsNotNull(myValue);
-      Assert.AreEqual("Enum description test", myValue);
+      ClassicAssert.IsNotNull(myValue);
+      ClassicAssert.AreEqual("Enum description test", myValue);
 
       description = ETestGetDescription.Test2;
 
       myValue = description.GetEnumDescription();
 
-      Assert.NotNull(myValue);
-      Assert.AreEqual("Enum description test 2", myValue);
+      ClassicAssert.NotNull(myValue);
+      ClassicAssert.AreEqual("Enum description test 2", myValue);
     }
 
     [Test]
@@ -32,7 +33,7 @@ namespace Org.Vs.NUnit.Tests
       string strDescription = "Enum description test 2";
       var eTestDescription = strDescription.GetEnumByDescription<ETestGetDescription>();
 
-      Assert.AreEqual(ETestGetDescription.Test2, eTestDescription);
+      ClassicAssert.AreEqual(ETestGetDescription.Test2, eTestDescription);
     }
   }
 }

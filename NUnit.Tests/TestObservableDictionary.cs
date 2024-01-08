@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Collections;
 using Org.Vs.TailForWin.Core.Interfaces;
 
@@ -15,45 +16,43 @@ namespace Org.Vs.NUnit.Tests
     private IObservableDictionary<int, string> _collection;
 
     [SetUp]
-    protected void Setup()
-    {
+    protected void Setup() =>
       _dictionary = new Dictionary<int, string>
       {
         { 1, "test 1" },
         { 2, "test 2" },
         { 3, "test 3" }
       };
-    }
 
     [Test]
     public void TestCreateObservableDictionary()
     {
       _collection = new ObservableDictionary<int, string>();
-      Assert.IsNotNull(_collection);
-      Assert.AreEqual(0, _collection.Count);
+      ClassicAssert.IsNotNull(_collection);
+      ClassicAssert.AreEqual(0, _collection.Count);
 
       _collection = new ObservableDictionary<int, string>(_dictionary);
-      Assert.AreEqual(3, _collection.Count);
-      Assert.IsFalse(_collection.IsReadOnly);
+      ClassicAssert.AreEqual(3, _collection.Count);
+      ClassicAssert.IsFalse(_collection.IsReadOnly);
 
-      Assert.AreEqual(3, _collection.Keys.Count);
-      Assert.AreEqual(3, _collection.Values.Count);
-      Assert.AreEqual(_dictionary.Keys, _collection.Keys);
-      Assert.AreEqual(_dictionary.Values, _collection.Values);
+      ClassicAssert.AreEqual(3, _collection.Keys.Count);
+      ClassicAssert.AreEqual(3, _collection.Values.Count);
+      ClassicAssert.AreEqual(_dictionary.Keys, _collection.Keys);
+      ClassicAssert.AreEqual(_dictionary.Values, _collection.Values);
     }
 
     [Test]
     public void TestKeyIndexAccessor()
     {
-      Assert.IsNotNull(_collection);
-      Assert.AreEqual("test 2", _collection[2]);
+      ClassicAssert.IsNotNull(_collection);
+      ClassicAssert.AreEqual("test 2", _collection[2]);
 
       _collection[1] = "change test";
-      Assert.AreEqual("change test", _collection[1]);
+      ClassicAssert.AreEqual("change test", _collection[1]);
 
       _collection[4] = "test 4";
-      Assert.AreEqual(4, _collection.Count);
-      Assert.AreEqual("test 4", _collection[4]);
+      ClassicAssert.AreEqual(4, _collection.Count);
+      ClassicAssert.AreEqual("test 4", _collection[4]);
     }
 
     [Test]
@@ -63,10 +62,10 @@ namespace Org.Vs.NUnit.Tests
 
       using ( var numerator = ((ObservableDictionary<int, string>) _collection)?.GetEnumerator() )
       {
-        Assert.NotNull(numerator);
+        ClassicAssert.NotNull(numerator);
 
         numerator.MoveNext();
-        Assert.AreEqual(_dictionary.First(), numerator.Current);
+        ClassicAssert.AreEqual(_dictionary.First(), numerator.Current);
       }
     }
 
@@ -74,64 +73,64 @@ namespace Org.Vs.NUnit.Tests
     public void TestTryGetValue()
     {
       _collection = new ObservableDictionary<int, string>(_dictionary);
-      Assert.IsTrue(_collection.TryGetValue(1, out string item));
-      Assert.AreEqual(_dictionary[1], item);
+      ClassicAssert.IsTrue(_collection.TryGetValue(1, out string item));
+      ClassicAssert.AreEqual(_dictionary[1], item);
     }
 
     [Test]
     public void TestRemoveItem()
     {
       _collection = new ObservableDictionary<int, string>(_dictionary);
-      Assert.IsTrue(_collection.Remove(1));
-      Assert.AreEqual(_dictionary.Count - 1, _collection.Count);
+      ClassicAssert.IsTrue(_collection.Remove(1));
+      ClassicAssert.AreEqual(_dictionary.Count - 1, _collection.Count);
 
-      Assert.IsTrue(_collection.Remove(_dictionary.Last()));
-      Assert.AreEqual(_dictionary.Count - 2, _collection.Count);
+      ClassicAssert.IsTrue(_collection.Remove(_dictionary.Last()));
+      ClassicAssert.AreEqual(_dictionary.Count - 2, _collection.Count);
     }
 
     [Test]
     public void TestContainsItem()
     {
       _collection = new ObservableDictionary<int, string>(_dictionary);
-      Assert.IsTrue(_collection.ContainsKey(1));
-      Assert.IsFalse(_collection.ContainsKey(4));
-      Assert.IsTrue(_collection.Contains(_dictionary.First()));
-      Assert.IsFalse(_collection.Contains(new KeyValuePair<int, string>(5, "test 5")));
+      ClassicAssert.IsTrue(_collection.ContainsKey(1));
+      ClassicAssert.IsFalse(_collection.ContainsKey(4));
+      ClassicAssert.IsTrue(_collection.Contains(_dictionary.First()));
+      ClassicAssert.IsFalse(_collection.Contains(new KeyValuePair<int, string>(5, "test 5")));
     }
 
     [Test]
     public void TestClearsCollection()
     {
       _collection = new ObservableDictionary<int, string>(_dictionary);
-      Assert.Greater(_collection.Count, 0);
+      ClassicAssert.Greater(_collection.Count, 0);
 
       _collection.Clear();
-      Assert.AreEqual(0, _collection.Count);
+      ClassicAssert.AreEqual(0, _collection.Count);
     }
 
     [Test]
     public void TestAddItemToCollection()
     {
       _collection = new ObservableDictionary<int, string>(_dictionary);
-      Assert.Greater(_collection.Count, 2);
+      ClassicAssert.Greater(_collection.Count, 2);
 
-      Assert.DoesNotThrow(() => _collection.Add(5, "test 5"));
-      Assert.IsTrue(_collection.ContainsKey(5));
-      Assert.AreEqual(4, _collection.Count);
+      ClassicAssert.DoesNotThrow(() => _collection.Add(5, "test 5"));
+      ClassicAssert.IsTrue(_collection.ContainsKey(5));
+      ClassicAssert.AreEqual(4, _collection.Count);
 
-      Assert.DoesNotThrow(() => _collection.Add(new KeyValuePair<int, string>(6, "test 6")));
-      Assert.IsTrue(_collection.Contains(new KeyValuePair<int, string>(6, "test 6")));
-      Assert.IsFalse(_collection.Contains(new KeyValuePair<int, string>(7, "test 7")));
-      Assert.That(() => _collection.Add(new KeyValuePair<int, string>(6, "test 6")), Throws.InstanceOf<ArgumentException>());
+      ClassicAssert.DoesNotThrow(() => _collection.Add(new KeyValuePair<int, string>(6, "test 6")));
+      ClassicAssert.IsTrue(_collection.Contains(new KeyValuePair<int, string>(6, "test 6")));
+      ClassicAssert.IsFalse(_collection.Contains(new KeyValuePair<int, string>(7, "test 7")));
+      ClassicAssert.That(() => _collection.Add(new KeyValuePair<int, string>(6, "test 6")), Throws.InstanceOf<ArgumentException>());
     }
 
     [Test]
     public void TestAddRangeToCollection()
     {
       _collection = new ObservableDictionary<int, string>(_dictionary);
-      Assert.Greater(_collection.Count, 2);
-      Assert.That(() => _collection.AddRange(null), Throws.InstanceOf<ArgumentException>());
-      Assert.Throws<ArgumentException>(() => _collection.AddRange(
+      ClassicAssert.Greater(_collection.Count, 2);
+      ClassicAssert.That(() => _collection.AddRange(null), Throws.InstanceOf<ArgumentException>());
+      ClassicAssert.Throws<ArgumentException>(() => _collection.AddRange(
           new Dictionary<int, string>
           {
             {
@@ -151,23 +150,23 @@ namespace Org.Vs.NUnit.Tests
           9, "test 9"
         }
       };
-      Assert.DoesNotThrow(() => _collection.AddRange(newDictionary));
-      Assert.Greater(_collection.Count, 3);
-      Assert.IsTrue(_collection.ContainsKey(9));
-      Assert.IsTrue(_collection.ContainsKey(7));
+      ClassicAssert.DoesNotThrow(() => _collection.AddRange(newDictionary));
+      ClassicAssert.Greater(_collection.Count, 3);
+      ClassicAssert.IsTrue(_collection.ContainsKey(9));
+      ClassicAssert.IsTrue(_collection.ContainsKey(7));
     }
 
     [Test]
     public void TestCopyCollectionTo()
     {
       _collection = new ObservableDictionary<int, string>(_dictionary);
-      Assert.Greater(_collection.Count, 2);
+      ClassicAssert.Greater(_collection.Count, 2);
 
       KeyValuePair<int, string>[] array = new KeyValuePair<int, string>[_collection.Count];
-      Assert.DoesNotThrow(() => _collection.CopyTo(array, 0));
-      Assert.AreEqual(3, array.Length);
-      Assert.AreEqual(_dictionary.First(),  array[0]);
-      Assert.Throws<ArgumentException>(() => _collection.CopyTo(null, 0));
+      ClassicAssert.DoesNotThrow(() => _collection.CopyTo(array, 0));
+      ClassicAssert.AreEqual(3, array.Length);
+      ClassicAssert.AreEqual(_dictionary.First(),  array[0]);
+      ClassicAssert.Throws<ArgumentException>(() => _collection.CopyTo(null, 0));
     }
   }
 }

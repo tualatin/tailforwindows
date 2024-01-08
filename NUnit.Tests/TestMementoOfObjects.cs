@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
 
@@ -11,8 +12,7 @@ namespace Org.Vs.NUnit.Tests
     private EnvironmentSettings _settings;
 
     [SetUp]
-    protected void SetUp()
-    {
+    protected void SetUp() =>
       _settings = new EnvironmentSettings
       {
         RestoreWindowSize = true,
@@ -21,7 +21,6 @@ namespace Org.Vs.NUnit.Tests
         LinesRead = 20,
         ExitWithEscape = true
       };
-    }
 
     [Test]
     public void TestMementoProxySettings()
@@ -38,12 +37,12 @@ namespace Org.Vs.NUnit.Tests
       _settings.ProxySettings = proxy;
 
       var memento = _settings.SaveToMemento();
-      Assert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
-      Assert.AreEqual(proxy.UseSystemSettings, memento.ProxySettings.UseSystemSettings);
-      Assert.AreEqual(proxy.UserName, memento.ProxySettings.UserName);
-      Assert.AreEqual(proxy.Password, memento.ProxySettings.Password);
-      Assert.AreEqual(proxy.ProxyPort, memento.ProxySettings.ProxyPort);
-      Assert.AreEqual(proxy.ProxyUrl, memento.ProxySettings.ProxyUrl);
+      ClassicAssert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
+      ClassicAssert.AreEqual(proxy.UseSystemSettings, memento.ProxySettings.UseSystemSettings);
+      ClassicAssert.AreEqual(proxy.UserName, memento.ProxySettings.UserName);
+      ClassicAssert.AreEqual(proxy.Password, memento.ProxySettings.Password);
+      ClassicAssert.AreEqual(proxy.ProxyPort, memento.ProxySettings.ProxyPort);
+      ClassicAssert.AreEqual(proxy.ProxyUrl, memento.ProxySettings.ProxyUrl);
 
       proxy.UseSystemSettings = null;
       proxy.ProxyPort = 4560;
@@ -52,11 +51,11 @@ namespace Org.Vs.NUnit.Tests
       _settings.ExitWithEscape = false;
 
       _settings.RestoreFromMemento(memento);
-      Assert.AreEqual(memento.ProxySettings.UseSystemSettings, _settings.ProxySettings.UseSystemSettings);
-      Assert.AreEqual(memento.ProxySettings.ProxyPort, _settings.ProxySettings.ProxyPort);
-      Assert.AreEqual(memento.RestoreWindowSize, _settings.RestoreWindowSize);
-      Assert.AreEqual(memento.LinesRead, _settings.LinesRead);
-      Assert.AreEqual(memento.ExitWithEscape, _settings.ExitWithEscape);
+      ClassicAssert.AreEqual(memento.ProxySettings.UseSystemSettings, _settings.ProxySettings.UseSystemSettings);
+      ClassicAssert.AreEqual(memento.ProxySettings.ProxyPort, _settings.ProxySettings.ProxyPort);
+      ClassicAssert.AreEqual(memento.RestoreWindowSize, _settings.RestoreWindowSize);
+      ClassicAssert.AreEqual(memento.LinesRead, _settings.LinesRead);
+      ClassicAssert.AreEqual(memento.ExitWithEscape, _settings.ExitWithEscape);
     }
 
     [Test]
@@ -73,18 +72,18 @@ namespace Org.Vs.NUnit.Tests
       _settings.SmartWatchSettings = smartWatch;
 
       var memento = _settings.SaveToMemento();
-      Assert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
-      Assert.AreEqual(_settings.SmartWatchSettings.Mode, memento.SmartWatchSettings.Mode);
-      Assert.AreEqual(_settings.SmartWatchSettings.AutoRun, memento.SmartWatchSettings.AutoRun);
-      Assert.AreEqual(_settings.SmartWatchSettings.NewTab, memento.SmartWatchSettings.NewTab);
-      Assert.AreEqual(_settings.SmartWatchSettings.FilterByExtension, memento.SmartWatchSettings.FilterByExtension);
+      ClassicAssert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
+      ClassicAssert.AreEqual(_settings.SmartWatchSettings.Mode, memento.SmartWatchSettings.Mode);
+      ClassicAssert.AreEqual(_settings.SmartWatchSettings.AutoRun, memento.SmartWatchSettings.AutoRun);
+      ClassicAssert.AreEqual(_settings.SmartWatchSettings.NewTab, memento.SmartWatchSettings.NewTab);
+      ClassicAssert.AreEqual(_settings.SmartWatchSettings.FilterByExtension, memento.SmartWatchSettings.FilterByExtension);
 
       smartWatch.AutoRun = false;
       smartWatch.Mode = ESmartWatchMode.Auto;
 
       _settings.RestoreFromMemento(memento);
-      Assert.AreEqual(memento.SmartWatchSettings.AutoRun, _settings.SmartWatchSettings.AutoRun);
-      Assert.AreEqual(memento.SmartWatchSettings.Mode, _settings.SmartWatchSettings.Mode);
+      ClassicAssert.AreEqual(memento.SmartWatchSettings.AutoRun, _settings.SmartWatchSettings.AutoRun);
+      ClassicAssert.AreEqual(memento.SmartWatchSettings.Mode, _settings.SmartWatchSettings.Mode);
     }
 
     [Test]
@@ -113,24 +112,24 @@ namespace Org.Vs.NUnit.Tests
       _settings.SmtpSettings = smtp;
 
       var memento = _settings.SaveToMemento();
-      Assert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
-      Assert.AreEqual(_settings.AlertSettings.BringToFront, memento.AlertSettings.BringToFront);
-      Assert.AreEqual(_settings.AlertSettings.MailAddress, memento.AlertSettings.MailAddress);
-      Assert.AreEqual(_settings.AlertSettings.PopupWnd, memento.AlertSettings.PopupWnd);
-      Assert.AreEqual(_settings.SmtpSettings.FromAddress, memento.SmtpSettings.FromAddress);
-      Assert.AreEqual(_settings.SmtpSettings.LoginName, memento.SmtpSettings.LoginName);
-      Assert.AreEqual(_settings.SmtpSettings.Tls, memento.SmtpSettings.Tls);
-      Assert.AreEqual(_settings.SmtpSettings.Subject, memento.SmtpSettings.Subject);
-      Assert.AreEqual(_settings.SmtpSettings.Password, memento.SmtpSettings.Password);
+      ClassicAssert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
+      ClassicAssert.AreEqual(_settings.AlertSettings.BringToFront, memento.AlertSettings.BringToFront);
+      ClassicAssert.AreEqual(_settings.AlertSettings.MailAddress, memento.AlertSettings.MailAddress);
+      ClassicAssert.AreEqual(_settings.AlertSettings.PopupWnd, memento.AlertSettings.PopupWnd);
+      ClassicAssert.AreEqual(_settings.SmtpSettings.FromAddress, memento.SmtpSettings.FromAddress);
+      ClassicAssert.AreEqual(_settings.SmtpSettings.LoginName, memento.SmtpSettings.LoginName);
+      ClassicAssert.AreEqual(_settings.SmtpSettings.Tls, memento.SmtpSettings.Tls);
+      ClassicAssert.AreEqual(_settings.SmtpSettings.Subject, memento.SmtpSettings.Subject);
+      ClassicAssert.AreEqual(_settings.SmtpSettings.Password, memento.SmtpSettings.Password);
 
       _settings.SmtpSettings.FromAddress = "phew@123.org";
       _settings.SmtpSettings.Tls = false;
       _settings.SmtpSettings.SmtpServerName = "hostname1234.test.local";
 
       _settings.RestoreFromMemento(memento);
-      Assert.AreEqual(memento.SmtpSettings.FromAddress, _settings.SmtpSettings.FromAddress);
-      Assert.AreEqual(memento.SmtpSettings.Tls, _settings.SmtpSettings.Tls);
-      Assert.AreEqual(memento.SmtpSettings.SmtpServerName, _settings.SmtpSettings.SmtpServerName);
+      ClassicAssert.AreEqual(memento.SmtpSettings.FromAddress, _settings.SmtpSettings.FromAddress);
+      ClassicAssert.AreEqual(memento.SmtpSettings.Tls, _settings.SmtpSettings.Tls);
+      ClassicAssert.AreEqual(memento.SmtpSettings.SmtpServerName, _settings.SmtpSettings.SmtpServerName);
     }
   }
 }

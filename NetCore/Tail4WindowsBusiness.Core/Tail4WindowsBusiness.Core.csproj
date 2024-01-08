@@ -12,8 +12,8 @@
     <Description>Professional log reader for Windows® Core</Description>
     <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
     <Company>Virtual Studios</Company>
-    <AssemblyVersion>1.0.40.0</AssemblyVersion>
-    <FileVersion>1.0.40.0</FileVersion>
+    <AssemblyVersion>1.0.42.0</AssemblyVersion>
+    <FileVersion>1.0.42.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,12 +43,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="7.0.0" />
+    <PackageReference Include="EPPlus" Version="7.0.5" />
     <PackageReference Include="EPPlus.Interfaces" Version="6.1.1" />
     <PackageReference Include="EPPlus.System.Drawing" Version="6.1.1" />
     <PackageReference Include="LiteDB" Version="5.0.17" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="System.Management" Version="7.0.2" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

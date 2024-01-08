@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Collections;
 
 namespace Org.Vs.NUnit.Tests
@@ -6,12 +7,11 @@ namespace Org.Vs.NUnit.Tests
   [TestFixture]
   public class TestQueueSet
   {
-    private QueueSet<string> queue;
+    private QueueSet<string> _queue;
 
     [SetUp]
-    protected void SetUp()
-    {
-      queue = new QueueSet<string>(5)
+    protected void SetUp() =>
+      _queue = new QueueSet<string>(5)
       {
         "test 1",
         "test 2",
@@ -21,28 +21,27 @@ namespace Org.Vs.NUnit.Tests
         "test 6",
         "test 7"
       };
-    }
 
     [Test]
     public void TestEnqueueSet()
     {
-      Assert.AreEqual(5, queue.Count);
-      Assert.IsFalse(queue.Contains("test 1"));
-      Assert.IsFalse(queue.Contains("test 2"));
+      ClassicAssert.AreEqual(5, _queue.Count);
+      ClassicAssert.IsFalse(_queue.Contains("test 1"));
+      ClassicAssert.IsFalse(_queue.Contains("test 2"));
 
-      Assert.IsTrue(queue.Contains("test 7"));
-      Assert.IsTrue(queue.Contains("test 5"));
+      ClassicAssert.IsTrue(_queue.Contains("test 7"));
+      ClassicAssert.IsTrue(_queue.Contains("test 5"));
     }
 
     [Test]
     public void TestDequeueSet()
     {
-      Assert.AreEqual(5, queue.Count);
+      ClassicAssert.AreEqual(5, _queue.Count);
 
-      string element = queue.Dequeue();
+      string element = _queue.Dequeue();
 
-      Assert.AreEqual(4, queue.Count);
-      Assert.AreEqual("test 3", element);
+      ClassicAssert.AreEqual(4, _queue.Count);
+      ClassicAssert.AreEqual("test 3", element);
     }
   }
 }

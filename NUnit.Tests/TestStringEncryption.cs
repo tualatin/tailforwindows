@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Utils;
 
 namespace Org.Vs.NUnit.Tests
@@ -13,14 +14,14 @@ namespace Org.Vs.NUnit.Tests
       const string message = "blablabla";
       string encryptedData = await StringEncryption.EncryptAsync(message).ConfigureAwait(false);
 
-      Assert.IsInstanceOf<string>(encryptedData);
-      Assert.IsNotNull(encryptedData);
-      Assert.AreNotEqual(message, encryptedData);
+      ClassicAssert.IsInstanceOf<string>(encryptedData);
+      ClassicAssert.IsNotNull(encryptedData);
+      ClassicAssert.AreNotEqual(message, encryptedData);
 
       string decryptedData = await StringEncryption.DecryptAsync(encryptedData).ConfigureAwait(false);
 
-      Assert.IsInstanceOf<string>(decryptedData);
-      Assert.AreEqual(message, decryptedData);
+      ClassicAssert.IsInstanceOf<string>(decryptedData);
+      ClassicAssert.AreEqual(message, decryptedData);
     }
   }
 }

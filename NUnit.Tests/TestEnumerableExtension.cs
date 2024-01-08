@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.NUnit.Tests.Data;
 using Org.Vs.TailForWin.Core.Extensions;
 
@@ -54,23 +55,17 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public void TestEnumerableHasDublicates()
     {
-      Assert.IsFalse(_testList.HasDuplicates());
+      ClassicAssert.IsFalse(_testList.HasDuplicates());
 
       _testList.Add("test1");
-      Assert.IsTrue(_testList.HasDuplicates());
+      ClassicAssert.IsTrue(_testList.HasDuplicates());
     }
 
     [Test]
-    public void TestEnumerableHasDublicatesNullComparer()
-    {
-      Assert.Throws<ArgumentException>(() => _testList.HasDuplicates(null));
-    }
+    public void TestEnumerableHasDublicatesNullComparer() => Assert.Throws<ArgumentException>(() => _testList.HasDuplicates(null));
 
     [Test]
-    public void TestEnumerableFindDublicatesNullNewValueNullComparer()
-    {
-      Assert.Throws<ArgumentException>(() => _stringCollection.IsAlreadyExists(null, null));
-    }
+    public void TestEnumerableFindDublicatesNullNewValueNullComparer() => Assert.Throws<ArgumentException>(() => _stringCollection.IsAlreadyExists(null, null));
 
     [Test]
     public void TestEnumerableIsAlreadyExists()
@@ -83,24 +78,24 @@ namespace Org.Vs.NUnit.Tests
         TestString = "Test3"
       };
 
-      Assert.IsTrue(_stringCollection.IsAlreadyExists(newValue, new Comparer()));
+      ClassicAssert.IsTrue(_stringCollection.IsAlreadyExists(newValue, new Comparer()));
     }
 
     [Test]
     public void TestEnumerableIsAlreadyExistsNullComparer()
     {
-      Assert.IsFalse(_testList.IsAlreadyExists("blabla", null));
-      Assert.IsTrue(_testList.IsAlreadyExists("test1", null));
+      ClassicAssert.IsFalse(_testList.IsAlreadyExists("blabla", null));
+      ClassicAssert.IsTrue(_testList.IsAlreadyExists("test1", null));
     }
 
     [Test]
     public void TestEnumerableCompare()
     {
       var testList = new List<string> { "test1", "test2", "test3", "test4" };
-      Assert.IsTrue(_testList.CompareGenericObservableCollections(testList));
+      ClassicAssert.IsTrue(_testList.CompareGenericObservableCollections(testList));
 
       testList.Add("test5");
-      Assert.IsFalse(_testList.CompareGenericObservableCollections(testList));
+      ClassicAssert.IsFalse(_testList.CompareGenericObservableCollections(testList));
     }
 
     [Test]
@@ -108,23 +103,17 @@ namespace Org.Vs.NUnit.Tests
     {
       List<int> a = new List<int> { 1, 2, 3, 1, 4, 10 };
       List<int> b = new List<int> { 1, 2, 3, 1, 4, 10 };
-      Assert.IsTrue(a.CompareGenericObservableCollections(b));
+      ClassicAssert.IsTrue(a.CompareGenericObservableCollections(b));
 
       List<int> c = new List<int> { 4, 6, 10, 20, 23, 10 };
-      Assert.IsFalse(b.CompareGenericObservableCollections(c));
+      ClassicAssert.IsFalse(b.CompareGenericObservableCollections(c));
     }
 
     private class Comparer : IEqualityComparer<TestDataObject>
     {
-      public bool Equals(TestDataObject x, TestDataObject y)
-      {
-        return y != null && x != null && string.CompareOrdinal(x.TestString, y.TestString) == 0;
-      }
+      public bool Equals(TestDataObject x, TestDataObject y) => y != null && x != null && string.CompareOrdinal(x.TestString, y.TestString) == 0;
 
-      public int GetHashCode(TestDataObject obj)
-      {
-        return 0;
-      }
+      public int GetHashCode(TestDataObject obj) => 0;
     }
   }
 }

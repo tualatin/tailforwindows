@@ -1,6 +1,7 @@
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Utils;
 
 namespace Org.Vs.NUnit.Tests
@@ -11,17 +12,14 @@ namespace Org.Vs.NUnit.Tests
     private string _currentTestDirectory;
 
     [SetUp]
-    protected void SetUp()
-    {
-      _currentTestDirectory = TestContext.CurrentContext.TestDirectory;
-    }
+    protected void SetUp() => _currentTestDirectory = TestContext.CurrentContext.TestDirectory;
 
     [Test]
     public async Task TestGetEncodingUtf8BomAsync()
     {
       string file = _currentTestDirectory + @"\Files\Encoding_UTF8wB.txt";
       var encoding = await EncodingDetector.GetEncodingAsync(file).ConfigureAwait(false);
-      Assert.AreEqual(Encoding.UTF8, encoding);
+      ClassicAssert.AreEqual(Encoding.UTF8, encoding);
     }
 
     [Test]
@@ -29,7 +27,7 @@ namespace Org.Vs.NUnit.Tests
     {
       string file = _currentTestDirectory + @"\Files\Encoding_ANSI.txt";
       var encoding = await EncodingDetector.GetEncodingAsync(file).ConfigureAwait(false);
-      Assert.AreEqual(Encoding.Default, encoding);
+      ClassicAssert.AreEqual(Encoding.Default, encoding);
     }
   }
 }

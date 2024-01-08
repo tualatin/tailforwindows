@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
@@ -51,9 +52,9 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       InitMyTest();
 
       var result = await _fileManagerController.ConvertXmlToJsonConfigAsync(_cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(result);
-      Assert.IsFalse(File.Exists(_path));
-      Assert.IsTrue(File.Exists(_pathAsJson));
+      ClassicAssert.IsTrue(result);
+      ClassicAssert.IsFalse(File.Exists(_path));
+      ClassicAssert.IsTrue(File.Exists(_pathAsJson));
     }
 
     [Test]
@@ -63,8 +64,8 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       CopyTempFile();
 
       var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Count > 0);
+      ClassicAssert.NotNull(result);
+      ClassicAssert.IsTrue(result.Count > 0);
 
       var guid = Guid.Parse("ce14d954-9336-4b8f-8160-67362f2f11a2");
       TailData first = null;
@@ -78,8 +79,8 @@ namespace Org.Vs.NUnit.Tests.JsonTests
         break;
       }
 
-      Assert.NotNull(first);
-      Assert.AreEqual("ce14d954-9336-4b8f-8160-67362f2f11a2", first.Id.ToString());
+      ClassicAssert.NotNull(first);
+      ClassicAssert.AreEqual("ce14d954-9336-4b8f-8160-67362f2f11a2", first.Id.ToString());
     }
 
     [Test]
@@ -88,9 +89,9 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       CopyTempFile();
 
       var categories = await _fileManagerController.GetCategoriesAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(categories);
-      Assert.IsTrue(categories.Count > 0);
-      Assert.AreEqual(2, categories.Count);
+      ClassicAssert.NotNull(categories);
+      ClassicAssert.IsTrue(categories.Count > 0);
+      ClassicAssert.AreEqual(2, categories.Count);
     }
 
     [Test]
@@ -100,9 +101,9 @@ namespace Org.Vs.NUnit.Tests.JsonTests
 
       var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
       var categories = await _fileManagerController.GetCategoriesAsync(_cts.Token, result).ConfigureAwait(false);
-      Assert.NotNull(categories);
-      Assert.IsTrue(categories.Count > 0);
-      Assert.AreEqual(2, categories.Count);
+      ClassicAssert.NotNull(categories);
+      ClassicAssert.IsTrue(categories.Count > 0);
+      ClassicAssert.AreEqual(2, categories.Count);
     }
 
     [Test]
@@ -111,13 +112,13 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       CopyTempFile();
 
       var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Count > 0);
+      ClassicAssert.NotNull(result);
+      ClassicAssert.IsTrue(result.Count > 0);
 
       var guid = Guid.Parse("ce14d954-9336-4b8f-8160-67362f2f11a2");
       var tailData = await _fileManagerController.GetTailDataByIdAsync(result, guid, _cts.Token).ConfigureAwait(false);
-      Assert.NotNull(tailData);
-      Assert.AreEqual("ce14d954-9336-4b8f-8160-67362f2f11a2", tailData.Id.ToString());
+      ClassicAssert.NotNull(tailData);
+      ClassicAssert.AreEqual("ce14d954-9336-4b8f-8160-67362f2f11a2", tailData.Id.ToString());
     }
 
     [Test]
@@ -161,12 +162,12 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       };
 
       var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Count > 0);
+      ClassicAssert.NotNull(result);
+      ClassicAssert.IsTrue(result.Count > 0);
 
       result.Add(tailData);
       var success = await _fileManagerController.CreateUpdateJsonFileAsync(result, _cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(success);
+      ClassicAssert.IsTrue(success);
     }
 
     [Test]
@@ -208,12 +209,12 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       };
 
       var success = await _fileManagerController.AddTailDataAsync(tailData, _cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(success);
+      ClassicAssert.IsTrue(success);
 
       var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Count > 0);
-      Assert.IsTrue(result.Count == 3);
+      ClassicAssert.NotNull(result);
+      ClassicAssert.IsTrue(result.Count > 0);
+      ClassicAssert.IsTrue(result.Count == 3);
     }
 
     [Test]
@@ -222,15 +223,15 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       CopyTempFile();
 
       var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Count > 0);
+      ClassicAssert.NotNull(result);
+      ClassicAssert.IsTrue(result.Count > 0);
 
       var success = await _fileManagerController.DeleteTailDataByIdAsync(result.FirstOrDefault().Id, _cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(success);
+      ClassicAssert.IsTrue(success);
 
       result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Count == 1);
+      ClassicAssert.NotNull(result);
+      ClassicAssert.IsTrue(result.Count == 1);
     }
 
     [Test]
@@ -239,16 +240,16 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       CopyTempFile();
 
       var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Count > 0);
+      ClassicAssert.NotNull(result);
+      ClassicAssert.IsTrue(result.Count > 0);
 
       var filterToDelete = result.Last().ListOfFilter.FirstOrDefault();
       var success = await _fileManagerController.DeleteFilterDataByIdAsync(filterToDelete.Id, _cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(success);
+      ClassicAssert.IsTrue(success);
 
       result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Last().ListOfFilter.Count == 1);
+      ClassicAssert.NotNull(result);
+      ClassicAssert.IsTrue(result.Last().ListOfFilter.Count == 1);
     }
 
     private void InitMyTest()

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -31,10 +32,10 @@ namespace Org.Vs.NUnit.Tests
       var shouldUpdate = await _updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
         System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ConfigureAwait(false);
 
-      Assert.IsInstanceOf<UpdateData>(shouldUpdate);
-      Assert.IsInstanceOf<Version>(shouldUpdate.ApplicationVersion);
-      Assert.IsInstanceOf<Version>(shouldUpdate.WebVersion);
-      Assert.IsFalse(shouldUpdate.Update);
+      ClassicAssert.IsInstanceOf<UpdateData>(shouldUpdate);
+      ClassicAssert.IsInstanceOf<Version>(shouldUpdate.ApplicationVersion);
+      ClassicAssert.IsInstanceOf<Version>(shouldUpdate.WebVersion);
+      ClassicAssert.IsFalse(shouldUpdate.Update);
     }
   }
 }

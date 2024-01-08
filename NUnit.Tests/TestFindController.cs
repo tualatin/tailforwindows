@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
 using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
@@ -33,37 +34,37 @@ namespace Org.Vs.NUnit.Tests
         UseWildcard = true
       };
       var result = await _findController.MatchTextAsync(settings, _textWorker, "lorem*").ConfigureAwait(false);
-      Assert.IsFalse(result != null);
+      ClassicAssert.IsFalse(result != null);
 
       settings.CaseSensitive = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, "ip??m").ConfigureAwait(false);
-      Assert.IsTrue(result.Count > 0);
-      Assert.AreEqual("ipsum", string.Join("|", result));
+      ClassicAssert.IsTrue(result.Count > 0);
+      ClassicAssert.AreEqual("ipsum", string.Join("|", result));
 
       settings.WholeWord = true;
       settings.UseWildcard = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, "sed").ConfigureAwait(false);
-      Assert.IsTrue(result.Count > 0);
-      Assert.AreEqual("Sed|sed", string.Join("|", result));
+      ClassicAssert.IsTrue(result.Count > 0);
+      ClassicAssert.AreEqual("Sed|sed", string.Join("|", result));
 
       settings.CaseSensitive = true;
       result = await _findController.MatchTextAsync(settings, _textWorker, "Diam").ConfigureAwait(false);
-      Assert.AreEqual(0, result.Count);
+      ClassicAssert.AreEqual(0, result.Count);
 
       settings.CaseSensitive = false;
       settings.UseWildcard = false;
       settings.UseRegex = true;
       settings.WholeWord = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, @"\w*[ip]").ConfigureAwait(false);
-      Assert.IsTrue(result.Count > 0);
+      ClassicAssert.IsTrue(result.Count > 0);
 
       settings.WholeWord = true;
       settings.UseRegex = true;
       result = await _findController.MatchTextAsync(settings, _textWorker, "sed|invidunt").ConfigureAwait(false);
-      Assert.IsTrue(result.Count > 0);
-      Assert.IsTrue(result.Count == 3);
-      Assert.IsTrue(result.Contains("sed"));
-      Assert.IsFalse(result.Contains("lorem"));
+      ClassicAssert.IsTrue(result.Count > 0);
+      ClassicAssert.IsTrue(result.Count == 3);
+      ClassicAssert.IsTrue(result.Contains("sed"));
+      ClassicAssert.IsFalse(result.Contains("lorem"));
 
       _textWorker = "TiCon4.exe Information: 0 : Bootstrapper sequence completed";
 
@@ -73,7 +74,7 @@ namespace Org.Vs.NUnit.Tests
       settings.UseWildcard = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, "Info").ConfigureAwait(false);
 
-      Assert.AreEqual(0, result.Count);
+      ClassicAssert.AreEqual(0, result.Count);
 
       _textWorker = "ShellWindow with a shell and a shellnut";
 
@@ -83,9 +84,9 @@ namespace Org.Vs.NUnit.Tests
       settings.UseWildcard = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, "shell").ConfigureAwait(false);
 
-      Assert.AreEqual(3, result.Count);
-      Assert.IsTrue(result.Contains("ShellWindow"));
-      Assert.IsFalse(result.Contains("with"));
+      ClassicAssert.AreEqual(3, result.Count);
+      ClassicAssert.IsTrue(result.Contains("ShellWindow"));
+      ClassicAssert.IsFalse(result.Contains("with"));
     }
 
     private void InitTokenSource()

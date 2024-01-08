@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces;
 
@@ -30,16 +31,16 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     public async Task TestReadDefaultPatternsAsync()
     {
       var defaultPattern = new XmlPatternController(@"C:\blablabla.xml");
-      Assert.IsNull(await defaultPattern.ReadDefaultPatternsAsync().ConfigureAwait(false));
+      ClassicAssert.IsNull(await defaultPattern.ReadDefaultPatternsAsync().ConfigureAwait(false));
 
       var patterns = await _xmlPattern.ReadDefaultPatternsAsync().ConfigureAwait(false);
-      Assert.IsNotNull(patterns);
-      Assert.AreEqual(5, patterns.Count);
-      Assert.IsTrue(patterns.Any(p => p.PatternString.Equals("????-??-??")));
-      Assert.IsTrue(patterns.Any(p => p.PatternString.Equals("??-??-????")));
-      Assert.IsTrue(patterns.Any(p => p.PatternString.Equals(@"^\w*_\d+")));
-      Assert.IsTrue(patterns.Any(p => p.PatternString.Equals(@"\d{2}-\d{2}-\d{4}")));
-      Assert.IsTrue(patterns.Any(p =>p.PatternString.Equals(@"\d{4}-\d{2}-\d{2}")));
+      ClassicAssert.IsNotNull(patterns);
+      ClassicAssert.AreEqual(5, patterns.Count);
+      ClassicAssert.IsTrue(patterns.Any(p => p.PatternString.Equals("????-??-??")));
+      ClassicAssert.IsTrue(patterns.Any(p => p.PatternString.Equals("??-??-????")));
+      ClassicAssert.IsTrue(patterns.Any(p => p.PatternString.Equals(@"^\w*_\d+")));
+      ClassicAssert.IsTrue(patterns.Any(p => p.PatternString.Equals(@"\d{2}-\d{2}-\d{4}")));
+      ClassicAssert.IsTrue(patterns.Any(p =>p.PatternString.Equals(@"\d{4}-\d{2}-\d{2}")));
     }
   }
 }

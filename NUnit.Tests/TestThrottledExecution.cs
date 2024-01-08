@@ -1,4 +1,5 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Org.Vs.TailForWin.Core.Utils;
 
 namespace Org.Vs.NUnit.Tests
@@ -18,11 +19,11 @@ namespace Org.Vs.NUnit.Tests
           testString = message;
         });
 
-      Assert.IsNull(testString);
+      ClassicAssert.IsNull(testString);
 
       System.Threading.Thread.Sleep(500);
 
-      Assert.AreEqual(message, testString);
+      ClassicAssert.AreEqual(message, testString);
     }
   }
 }
