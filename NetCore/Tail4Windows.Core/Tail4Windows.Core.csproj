@@ -1,19 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <RootNamespace>Org.Vs.TailForWin.Core</RootNamespace>
     <AssemblyName>T4W.Core</AssemblyName>
     <UseWPF>true</UseWPF>
     <PlatformTarget>x64</PlatformTarget>
-    <AssemblyVersion>1.0.48.0</AssemblyVersion>
-    <FileVersion>1.0.48.0</FileVersion>
+    <AssemblyVersion>1.0.50.0</AssemblyVersion>
+    <FileVersion>1.0.50.0</FileVersion>
     <Product>T4WCore</Product>
     <Description>Professional log reader for Windows® Core</Description>
     <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
     <Company>Virtual Studios</Company>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

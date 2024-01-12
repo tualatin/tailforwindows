@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
@@ -11,8 +11,8 @@
     <Description>Professional log reader for Windows® Core</Description>
     <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
     <Company>Virtual Studios</Company>
-    <AssemblyVersion>1.0.34.0</AssemblyVersion>
-    <FileVersion>1.0.34.0</FileVersion>
+    <AssemblyVersion>1.0.35.0</AssemblyVersion>
+    <FileVersion>1.0.35.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

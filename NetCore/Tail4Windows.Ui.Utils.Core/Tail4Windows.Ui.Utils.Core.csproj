@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <RootNamespace>Org.Vs.TailForWin.Ui.Utils</RootNamespace>
     <PlatformTarget>x64</PlatformTarget>
@@ -11,8 +11,8 @@
     <Description>Professional log reader for Windows® UI Utils</Description>
     <Copyright>Copyright ©  2019 - 2023 M. Zoennchen</Copyright>
     <AssemblyName>T4W.Ui.Utils</AssemblyName>
-    <AssemblyVersion>1.0.26.0</AssemblyVersion>
-    <FileVersion>1.0.26.0</FileVersion>
+    <AssemblyVersion>1.0.27.0</AssemblyVersion>
+    <FileVersion>1.0.27.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
