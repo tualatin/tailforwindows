@@ -18,9 +18,9 @@
     <Company>Virtual Studios</Company>
     <Product>T4WControllers</Product>
     <Description>Professional log reader for Windows® Controllers</Description>
-    <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.271</AssemblyVersion>
-    <FileVersion>1.0.271</FileVersion>
+    <Copyright>Copyright ©  2018 - 2024 M. Zoennchen</Copyright>
+    <AssemblyVersion>1.0.272</AssemblyVersion>
+    <FileVersion>1.0.272</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>

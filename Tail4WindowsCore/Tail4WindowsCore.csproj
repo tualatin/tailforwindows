@@ -18,9 +18,9 @@
     <Company>Virtual Studios</Company>
     <Product>T4WCore</Product>
     <Description>Professional log reader for Windows® Core</Description>
-    <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.269</AssemblyVersion>
-    <FileVersion>1.0.269</FileVersion>
+    <Copyright>Copyright ©  2018 - 2024 M. Zoennchen</Copyright>
+    <AssemblyVersion>1.0.270</AssemblyVersion>
+    <FileVersion>1.0.270</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>

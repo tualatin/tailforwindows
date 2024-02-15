@@ -9,10 +9,10 @@
     <Company>Virtual Studios</Company>
     <Product>T4WUi.Plugins</Product>
     <Description>Professional log reader for Windows® UI Utils</Description>
-    <Copyright>Copyright ©  2019 - 2023 M. Zoennchen</Copyright>
+    <Copyright>Copyright ©  2019 - 2024 M. Zoennchen</Copyright>
     <AssemblyName>T4W.Ui.Plugins</AssemblyName>
-    <AssemblyVersion>1.0.20.0</AssemblyVersion>
-    <FileVersion>1.0.20.0</FileVersion>
+    <AssemblyVersion>1.0.21.0</AssemblyVersion>
+    <FileVersion>1.0.21.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -52,7 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.1" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="log4net" Version="2.0.15" />
   </ItemGroup>
