@@ -5,6 +5,8 @@
     <AssemblyTitle>NUnit.Tests</AssemblyTitle>
     <Product>nunit.tests</Product>
     <Copyright>Copyright © 2017</Copyright>
+    <AssemblyVersion>1.0.1.8864</AssemblyVersion>
+    <FileVersion>1.0.1.8864</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
