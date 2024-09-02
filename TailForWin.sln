@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
+# 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4Windows", "Tail4Windows\Tail4Windows.csproj", "{B07BE282-4B92-4E8B-97E0-8413E9501877}"
@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsControllers.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4Windows.Ui.Utils.Core", "NetCore\Tail4Windows.Ui.Utils.Core\Tail4Windows.Ui.Utils.Core.csproj", "{28B02C43-F445-4BD1-8009-BE5492D9FC81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4Windows.Ui.Plugins.Core", "NetCore\Tail4Windows.Ui.Plugins.Core\Tail4Windows.Ui.Plugins.Core.csproj", "{BC9A3F33-C9E1-4349-A034-2786C50CDB36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4Windows.Ui.Plugins.Core", "NetCore\Tail4Windows.Ui.Plugins.Core\Tail4Windows.Ui.Plugins.Core.csproj", "{BC9A3F33-C9E1-4349-A034-2786C50CDB36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
