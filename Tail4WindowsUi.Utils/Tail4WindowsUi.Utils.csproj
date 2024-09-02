@@ -23,6 +23,8 @@
     <Copyright>Copyright ©  2019 - 2024 M. Zoennchen</Copyright>
     <AssemblyVersion>1.0.189</AssemblyVersion>
     <FileVersion>1.0.189</FileVersion>
+    <AssemblyVersion>1.0.190</AssemblyVersion>
+    <FileVersion>1.0.190</FileVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
