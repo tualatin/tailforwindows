@@ -54,7 +54,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="LiveCharts" Version="0.9.7" />
-    <PackageReference Include="log4net" Version="2.0.17" />
+    <PackageReference Include="log4net" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />
