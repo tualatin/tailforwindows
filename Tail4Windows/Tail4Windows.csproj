@@ -39,8 +39,8 @@
     <Product>T4W</Product>
     <Description>Professional log reader for Windows®</Description>
     <Copyright>Copyright ©  2013 - 2024 M. Zoennchen</Copyright>
-    <AssemblyVersion>2.4.9036</AssemblyVersion>
-    <FileVersion>2.4.9036</FileVersion>
+    <AssemblyVersion>2.4.9055</AssemblyVersion>
+    <FileVersion>2.4.9055</FileVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -112,10 +112,10 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.1" />
-    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.0" />
     <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
-    <PackageReference Include="log4net" Version="3.0.0" />
+    <PackageReference Include="log4net" Version="3.0.1" />
     <PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="4.0.50">
       <PrivateAssets>all</PrivateAssets>

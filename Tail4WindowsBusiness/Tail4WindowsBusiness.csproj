@@ -19,8 +19,8 @@
     <Product>T4WBusiness</Product>
     <Description>Professional log reader for Windows® Business</Description>
     <Copyright>Copyright ©  2018 - 2024 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.298</AssemblyVersion>
-    <FileVersion>1.0.298</FileVersion>
+    <AssemblyVersion>1.0.299</AssemblyVersion>
+    <FileVersion>1.0.299</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -71,11 +71,11 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="EPPlus" Version="7.3.0" />
-    <PackageReference Include="EPPlus" Version="7.3.2" />
+    <PackageReference Include="EPPlus" Version="7.4.1" />
     <PackageReference Include="EPPlus.Interfaces" Version="6.1.1" />
     <PackageReference Include="EPPlus.System.Drawing" Version="6.1.1" />
     <PackageReference Include="LiteDB" Version="5.0.21" />
-    <PackageReference Include="log4net" Version="3.0.0" />
+    <PackageReference Include="log4net" Version="3.0.1" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
     <PackageReference Include="System.Buffers" Version="4.5.1" />
     <PackageReference Include="System.Memory" Version="4.5.5" />
