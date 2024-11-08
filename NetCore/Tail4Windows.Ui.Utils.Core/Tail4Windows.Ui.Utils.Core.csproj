@@ -11,8 +11,8 @@
     <Description>Professional log reader for Windows® UI Utils</Description>
     <Copyright>Copyright ©  2019 - 2024 M. Zoennchen</Copyright>
     <AssemblyName>T4W.Ui.Utils</AssemblyName>
-    <AssemblyVersion>1.0.31.0</AssemblyVersion>
-    <FileVersion>1.0.31.0</FileVersion>
+    <AssemblyVersion>1.0.32.0</AssemblyVersion>
+    <FileVersion>1.0.33.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,7 +43,7 @@
 
   <ItemGroup>
     <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
-    <PackageReference Include="log4net" Version="3.0.2" />
+    <PackageReference Include="log4net" Version="3.0.3" />
   </ItemGroup>
 
   <ItemGroup>
