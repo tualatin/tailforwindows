@@ -21,8 +21,8 @@
     <Product>T4WUI.Utils</Product>
     <Description>Professional log reader for Windows® UI Utils</Description>
     <Copyright>Copyright ©  2019 - 2024 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.197</AssemblyVersion>
-    <FileVersion>1.0.197</FileVersion>
+    <AssemblyVersion>1.0.198</AssemblyVersion>
+    <FileVersion>1.0.198</FileVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
