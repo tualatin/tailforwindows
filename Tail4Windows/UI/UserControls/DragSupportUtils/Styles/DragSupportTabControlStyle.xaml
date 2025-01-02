@@ -18,6 +18,7 @@
             Name="Chrome"
             Background="Transparent"
             BorderThickness="1"
+            CornerRadius="360"
             >
 
             <ContentPresenter
