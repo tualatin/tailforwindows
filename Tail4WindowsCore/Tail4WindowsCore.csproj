@@ -21,6 +21,8 @@
     <Copyright>Copyright ©  2018 - 2024 M. Zoennchen</Copyright>
     <AssemblyVersion>1.0.285</AssemblyVersion>
     <FileVersion>1.0.288</FileVersion>
+    <AssemblyVersion>1.0.286</AssemblyVersion>
+    <FileVersion>1.0.289</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
