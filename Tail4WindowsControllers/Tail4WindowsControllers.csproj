@@ -19,8 +19,8 @@
     <Product>T4WControllers</Product>
     <Description>Professional log reader for Windows® Controllers</Description>
     <Copyright>Copyright ©  2018 - 2024 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.286</AssemblyVersion>
-    <FileVersion>1.0.287</FileVersion>
+    <AssemblyVersion>1.0.287</AssemblyVersion>
+    <FileVersion>1.0.288</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
