@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using Microsoft.Extensions.Options;
+using TinyIpc;
 using TinyIpc.Messaging;
 
 namespace Org.Vs.TailForWin.Core.SingleInstanceCore
@@ -43,7 +45,7 @@ namespace Org.Vs.TailForWin.Core.SingleInstanceCore
     {
       var bus = GetTinyMessageBus(channelName);
       var serializedArgs = commandLineArgs.Serialize();
-      bus?.PublishAsync(serializedArgs).Wait();
+      bus?.PublishAsync(BinaryData.FromBytes(serializedArgs)).Wait();
 
       WaitTillMessageGetsPublished(bus);
     }
@@ -51,13 +53,13 @@ namespace Org.Vs.TailForWin.Core.SingleInstanceCore
     private static TinyMessageBus GetTinyMessageBus(string channelName, int tryCount = 50)
     {
       int tries = 0;
-      var minMessageAge = TimeSpan.FromSeconds(30);
+      var tinyOptions = new TinyIpcOptions { MinMessageAge = TimeSpan.FromSeconds(30) };
 
       while ( tries++ < tryCount )
       {
         try
         {
-          var bus = new TinyMessageBus(channelName, minMessageAge);
+          var bus = new TinyMessageBus(channelName, new OptionsWrapper<TinyIpcOptions>(tinyOptions));
 
           return bus;
         }
@@ -85,7 +87,7 @@ namespace Org.Vs.TailForWin.Core.SingleInstanceCore
       messageBus = new TinyMessageBus(channelName);
       messageBus.MessageReceived += (_, e) =>
       {
-        instance.OnInstanceInvoked(e.Message.Select(p => p).ToArray().Deserialize<string[]>());
+        instance.OnInstanceInvoked(e.Message.ToArray().Deserialize<string[]>());
       };
     }
 

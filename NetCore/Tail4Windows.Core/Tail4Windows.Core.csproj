@@ -8,8 +8,8 @@
     <AssemblyName>T4W.Core</AssemblyName>
     <UseWPF>true</UseWPF>
     <PlatformTarget>x64</PlatformTarget>
-    <AssemblyVersion>1.0.57.0</AssemblyVersion>
-    <FileVersion>1.0.57.0</FileVersion>
+    <AssemblyVersion>1.0.60.0</AssemblyVersion>
+    <FileVersion>1.0.60.0</FileVersion>
     <Product>T4WCore</Product>
     <Description>Professional log reader for Windows® Core</Description>
     <Copyright>Copyright ©  2018 - 2024 M. Zoennchen</Copyright>
@@ -46,7 +46,6 @@
   <ItemGroup>
     <PackageReference Include="log4net" Version="3.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="TinyIpc" Version="4.3.2" />
     <PackageReference Include="TinyIpc" Version="5.1.0" />
   </ItemGroup>
 

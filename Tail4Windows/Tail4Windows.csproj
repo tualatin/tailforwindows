@@ -39,10 +39,8 @@
     <Product>T4W</Product>
     <Description>Professional log reader for Windows®</Description>
     <Copyright>Copyright ©  2013 - 2024 M. Zoennchen</Copyright>
-    <AssemblyVersion>2.4.9146</AssemblyVersion>
-    <FileVersion>2.4.9146</FileVersion>
-    <AssemblyVersion>2.4.9141</AssemblyVersion>
-    <FileVersion>2.4.9141</FileVersion>
+    <AssemblyVersion>2.4.9152</AssemblyVersion>
+    <FileVersion>2.4.9152</FileVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
