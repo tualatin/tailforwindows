@@ -19,8 +19,8 @@
     <Product>T4WBusiness</Product>
     <Description>Professional log reader for Windows® Business</Description>
     <Copyright>Copyright ©  2018 - 2024 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.311</AssemblyVersion>
-    <FileVersion>1.0.311</FileVersion>
+    <AssemblyVersion>1.0.312</AssemblyVersion>
+    <FileVersion>1.0.312</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
