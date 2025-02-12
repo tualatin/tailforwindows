@@ -19,8 +19,8 @@
     <Product>T4WCore</Product>
     <Description>Professional log reader for Windows® Core</Description>
     <Copyright>Copyright ©  2018 - 2024 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.290</AssemblyVersion>
-    <FileVersion>1.0.293</FileVersion>
+    <AssemblyVersion>1.0.291</AssemblyVersion>
+    <FileVersion>1.0.294</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
