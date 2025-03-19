@@ -20,8 +20,8 @@
     <Product>T4WUI.Plugins</Product>
     <Description>Professional log reader for Windows® UI Plugins</Description>
     <Copyright>Copyright ©  2019 - 2024 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.358</AssemblyVersion>
-    <FileVersion>1.0.358</FileVersion>
+    <AssemblyVersion>1.0.359</AssemblyVersion>
+    <FileVersion>1.0.359</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -56,7 +56,7 @@
     <PackageReference Include="AsyncAnalyzers" Version="1.1.7.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25103.5738" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
     <PackageReference Include="log4net" Version="3.0.4" />
   </ItemGroup>
