@@ -19,8 +19,8 @@
     <Product>T4WCore</Product>
     <Description>Professional log reader for Windows® Core</Description>
     <Copyright>Copyright ©  2018 - 2024 M. Zoennchen</Copyright>
-    <AssemblyVersion>1.0.295</AssemblyVersion>
-    <FileVersion>1.0.298</FileVersion>
+    <AssemblyVersion>1.0.297</AssemblyVersion>
+    <FileVersion>1.0.300</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -65,7 +65,7 @@
     <PackageReference Include="AsyncAnalyzers" Version="1.1.7.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="log4net" Version="3.0.4" />
+    <PackageReference Include="log4net" Version="3.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>

@@ -43,7 +43,7 @@
 
   <ItemGroup>
     <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
-    <PackageReference Include="log4net" Version="3.0.4" />
+    <PackageReference Include="log4net" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
