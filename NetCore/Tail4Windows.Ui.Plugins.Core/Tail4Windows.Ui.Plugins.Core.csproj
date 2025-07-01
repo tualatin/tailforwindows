@@ -11,8 +11,8 @@
     <Description>Professional log reader for Windows® UI Utils</Description>
     <Copyright>Copyright ©  2019 - 2024 M. Zoennchen</Copyright>
     <AssemblyName>T4W.Ui.Plugins</AssemblyName>
-    <AssemblyVersion>1.0.28.0</AssemblyVersion>
-    <FileVersion>1.0.28.0</FileVersion>
+    <AssemblyVersion>1.0.29.0</AssemblyVersion>
+    <FileVersion>1.0.29.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
