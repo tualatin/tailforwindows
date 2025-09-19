@@ -4,6 +4,7 @@ Tail4Windows
 
 Unfortunately, I will finally close the Tail4Windows project. For private reasons, I will no longer be able to wait for the project to the best of my conscience in the future. It was a pleasure for me to develop Tail4Windows, to this day I use it professionally and the program does its service reliably.
 If you are interested in further developing Tail4Windows, especially porting it to NETCORE, you are welcome to do so. I would be very grateful for a hint.
+
 Thanks to everyone who believed in the program and worked on it.
 
 ## Professional log reader for Windows
