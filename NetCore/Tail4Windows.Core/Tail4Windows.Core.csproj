@@ -45,7 +45,7 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="3.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="TinyIpc" Version="5.1.0" />
   </ItemGroup>
 

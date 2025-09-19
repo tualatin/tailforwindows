@@ -43,12 +43,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="8.1.0" />
+    <PackageReference Include="EPPlus" Version="8.1.1" />
     <PackageReference Include="EPPlus.Interfaces" Version="8.1.0" />
     <PackageReference Include="EPPlus.System.Drawing" Version="8.1.0" />
     <PackageReference Include="LiteDB" Version="5.0.21" />
     <PackageReference Include="log4net" Version="3.2.0" />
-    <PackageReference Include="System.Management" Version="9.0.8" />
+    <PackageReference Include="System.Management" Version="9.0.9" />
   </ItemGroup>
 
   <ItemGroup>
