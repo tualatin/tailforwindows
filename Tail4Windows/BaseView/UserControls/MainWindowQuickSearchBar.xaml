@@ -40,13 +40,14 @@
 
       <Style x:Key="QuickSearchBorderStyle" TargetType="{x:Type Border}">
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="3" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Style.Triggers>
           <Trigger Property="IsMouseOver" Value="True">
             <Setter Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
           </Trigger>
           <Trigger Property="IsMouseOver" Value="False">
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBorderLightColorKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}" />
           </Trigger>
           <DataTrigger Value="True" Binding="{Binding IsFocused, ElementName=QuickSearchTextBox}">
             <Setter Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
@@ -57,14 +58,20 @@
   </UserControl.Resources>
 
   <Grid>
-    <Border Style="{StaticResource QuickSearchBorderStyle}">
-      <Grid Background="White">
+    <Border
+      Background="White"
+      Style="{StaticResource QuickSearchBorderStyle}"
+      >
+      <Grid Background="Transparent">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="21" />
         </Grid.ColumnDefinitions>
 
         <extendedControls:VsWatermarkTextBox
+          Margin="2 0"
+          Padding="0"
+          VerticalAlignment="Center"
           Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           BorderThickness="0"
           ToolTip="{DynamicResource QuickSearchToolTip}"
@@ -78,16 +85,20 @@
 
         <Button
           Grid.Column="1"
-          Width="20"
+          Width="21"
           Height="21"
+          Margin="0"
+          Padding="0"
           Command="{Binding QuickSearchCommand}"
           Style="{StaticResource QuickSearchButtonStyle}"
           >
-          <StackPanel>
+          <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
             <Image
               Width="16"
               Height="16"
-              Margin="0 4 0 0"
               RenderOptions.BitmapScalingMode="NearestNeighbor"
               RenderOptions.EdgeMode="Aliased"
               Source="/T4W;component/Resources/QuickSearch.png"

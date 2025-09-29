@@ -61,6 +61,7 @@
               Background="{TemplateBinding Background}"
               BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBorderMediumKey}}"
               BorderThickness="{TemplateBinding BorderThickness}"
+              CornerRadius="2"
               SnapsToDevicePixels="True"
               >
               <Grid>
@@ -118,6 +119,7 @@
               Background="{TemplateBinding Background}"
               BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBorderMediumKey}}"
               BorderThickness="{TemplateBinding BorderThickness}"
+              CornerRadius="2"
               SnapsToDevicePixels="True"
               >
               <Grid>
@@ -172,6 +174,7 @@
               Background="{TemplateBinding Background}"
               BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBorderMediumKey}}"
               BorderThickness="{TemplateBinding BorderThickness}"
+              CornerRadius="2"
               SnapsToDevicePixels="True"
               >
               <Grid>

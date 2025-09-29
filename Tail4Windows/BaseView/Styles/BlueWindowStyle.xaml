@@ -21,7 +21,7 @@
       <Grid Background="{StaticResource BrushSolidLightBlue}">
         <Grid>
           <Grid.RowDefinitions>
-            <RowDefinition Height="28" />
+            <RowDefinition Height="30" />
             <RowDefinition />
           </Grid.RowDefinitions>
 
